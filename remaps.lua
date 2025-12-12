@@ -21,13 +21,6 @@ local remaps = {
         ["K"] = "CAPSLOCK",
         ["0"] = "Z",
 
-        -- ["MB5"] = "Home",
-        -- ["Q"] = "O",
-        -- ["A"] = "N",
-        -- ["D"] = "X" ,
-        -- ["CAPSLOCK"] = "0",
-        -- ["X"] = "RIGHTSHIFT",
-        -- ["O"] = "Q",
     },
 
     disabled = {
