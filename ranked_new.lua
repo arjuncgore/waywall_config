@@ -23,7 +23,6 @@ local keys = {
 
 
 -- ==== PATHS ====
-
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
 
