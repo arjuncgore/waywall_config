@@ -1,6 +1,7 @@
 -- ==== CONFIG ====
 local primary_col = "#272420"
 local secondary_col = "#877665"
+local tertiary_col = "#574D43"
 local shadow_col = "#CCCCCC"
 
 local tall_sens = 0.2220668274200729
@@ -21,16 +22,38 @@ local keys = {
 
 }
 
+-- ==== PLUGINS CONFIG ====
+local plugins = {
+    {
+        name = "media_keys",
+        cfg = {
+            overlay = false,
+            mute = "F9",
+            previous = "F10",
+            play_pause = "F11",
+            next = "F12",
+            obs_pw = "aU1Vt3NniDIy1hzh",
+        }
+    },
+    -- {
+    --     name = "mpk",
+    --     cfg = {
+    --         launch = "8",
+    --         quit = "9",
+    --     }
+    -- }
+}
+
 
 -- ==== PATHS ====
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
 
-local background_path = home .. "mcsr/resources/simon_marcy/background.png"
-local tall_overlay_path = home .. "mcsr/resources/simon_marcy/overlay_tall.png"
-local wide_overlay_path = home .. "mcsr/resources/simon_marcy/overlay_wide.png"
-local thin_overlay_path = home .. "mcsr/resources/simon_marcy/overlay_thin.png"
-local overlay_path = home .. "mcsr/resources/simon_marcy/measuring_overlay.png"
+local background_path = config_folder .. "resources/background.png"
+local tall_overlay_path = config_folder .. "resources/overlay_tall.png"
+local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
+local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
+local overlay_path = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.1.jar"
 local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.1.jar"
@@ -121,6 +144,24 @@ local config = {
 
 
 -- ==== MIRRORS ====
+helpers.res_mirror( -- thin e_counter
+    {
+        src = { x = 1, y = 28, w = 49, h = 18 },
+        dst = { x = 1500, y = 400, w = 343, h = 126 },
+        depth = 1,
+        color_key = { input = "#dddddd", output = primary_col },
+    },
+    350, 1100
+)
+helpers.res_mirror( -- tall e_counter
+    {
+        src = { x = 1, y = 28, w = 49, h = 18 },
+        dst = { x = 1500, y = 400, w = 343, h = 126 },
+        depth = 1,
+        color_key = { input = "#dddddd", output = primary_col },
+    },
+    384, 16384
+)
 helpers.res_mirror( -- thin pie
     {
         src = { x = 21, y = 700, w = 318, h = 160 },
@@ -210,24 +251,37 @@ local resolutions = {
     thin = function()
         if remaps_active then
             helpers.ingame_only(helpers.toggle_res(350, 1100))()
-            thin_active = true
+            local act_width, act_height = waywall.active_res()
+            if act_width == 350 and act_height == 1100 then
+                thin_active = true
+            else
+                thin_active = false
+            end
         end
     end,
     wide = function()
-        if remaps_active and not waywall.get_key("F3") then
-            helpers.ingame_only(helpers.toggle_res(2560, 400))()
-            thin_active = false
+        if remaps_active then
+            if not waywall.get_key("F3") then
+                helpers.ingame_only(helpers.toggle_res(2560, 400))()
+                thin_active = false
+            else
+                return false
+            end
         end
     end,
     tall = function()
-        if remaps_active and not waywall.get_key("F3") then
-            if thin_active then
-                helpers.toggle_res(350, 1100)()
-                helpers.toggle_res(384, 16384)()
+        if remaps_active then
+            if not waywall.get_key("F3") then
+                if thin_active then
+                    helpers.toggle_res(350, 1100)()
+                    helpers.toggle_res(384, 16384)()
+                else
+                    helpers.toggle_res(384, 16384, tall_sens)()
+                end
+                thin_active = false
             else
-                helpers.toggle_res(384, 16384, tall_sens)()
+                return false
             end
-            thin_active = false
         end
     end,
 }
@@ -250,12 +304,38 @@ config.actions = {
         end
     end,
 
+    ["*-C"] = function()
+        if waywall.get_key("F3") then
+            waywall.show_floating(true)
+            return false
+        else
+            return false
+        end
+    end,
+
     [keys.launch_paceman] = function()
         if not is_pacem_running() then
             waywall.exec("java -jar " .. pacem_path .. " --nogui")
         end
     end,
 
+    [keys.toggle_rebinds] = function()
+        if remaps_active then
+            remaps_active = false
+            waywall.set_remaps(remaps.disabled)
+            waywall.set_keymap({ layout = "us" })
+        else
+            remaps_active = true
+            waywall.set_remaps(remaps.enabled)
+            waywall.set_keymap({ layout = "mc" })
+        end
+    end,
+
 }
+
+-- ==== PLUGINS ====
+for _, p in ipairs(plugins) do
+    require("plugins." .. p.name)(p.cfg, config)
+end
 
 return config
