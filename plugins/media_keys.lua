@@ -6,12 +6,6 @@ local look         = {
     size = 3,
 }
 
-local previous     = "F10"
-local play_pause   = "F11"
-local next         = "F12"
-local obs_mute     = "F9"
-local obs_pw       = "aU1Vt3NniDIy1hzh"
-
 -- ==== VARS ====
 local waywall      = require("waywall")
 local MK           = {}
@@ -70,32 +64,42 @@ MK.disable_overlay = function()
     end
 end
 
--- ==== UPDATE ON STATE OUTPUT ====
-waywall.listen("state", function()
-    -- MK.enable_overlay()
-end)
 
 -- ==== ACTIONS ====
-return function(config)
-    config.actions[previous] = function()
+return function(cfg, config)
+    waywall.listen("state", function()
+        -- Update on state update
+        if cfg.overlay then
+            MK.enable_overlay()
+        end
+    end)
+
+
+    config.actions[cfg.previous] = function()
         waywall.exec("playerctl previous")
         waywall.sleep(100)
-        -- MK.enable_overlay()
+        if cfg.overlay then
+            MK.enable_overlay()
+        end
     end
 
-    config.actions[play_pause] = function()
+    config.actions[cfg.play_pause] = function()
         waywall.exec("playerctl play-pause")
         waywall.sleep(100)
-        -- MK.enable_overlay()
+        if cfg.overlay then
+            MK.enable_overlay()
+        end
     end
 
-    config.actions[next] = function()
+    config.actions[cfg.next] = function()
         waywall.exec("playerctl next")
         waywall.sleep(100)
-        -- MK.enable_overlay()
+        if cfg.overlay then
+            MK.enable_overlay()
+        end
     end
 
-    config.actions[obs_mute] = function()
-        waywall.exec("obs-cmd --websocket obsws://localhost:4455/" .. obs_pw .. " audio toggle Mic/Aux")
+    config.actions[cfg.mute] = function()
+        waywall.exec("obs-cmd --websocket obsws://localhost:4455/" .. cfg.obs_pw .. " audio toggle Mic/Aux")
     end
 end
