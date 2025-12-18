@@ -18,22 +18,27 @@ const vec3 prepare          = vec3(0.275, 0.298, 0.275);        // #464C46
 // ==== DST COLORS ====
 const vec4 primary_color    = vec4(0.153, 0.141, 0.125, 1.000); // #272420
 const vec4 secondary_color  = vec4(0.529, 0.463, 0.396, 1.000); // #877665
+const vec4 tertiary_color   = vec4(0.341, 0.302, 0.263, 1.000); // #574D43
+
 
 void main() {
     vec4 color = texture2D(u_texture, f_src_pos);
 
+    bool is_blockentities = all(lessThan(abs(color.rgb - blockentities), vec3(threshold)));
     bool is_entities = all(lessThan(abs(color.rgb - entities), vec3(threshold)));
     bool is_unspecified = all(lessThan(abs(color.rgb - unspecified), vec3(threshold)));
     bool is_destroyProgess = all(lessThan(abs(color.rgb - destroyProgress), vec3(threshold)));
     bool is_prepare = all(lessThan(abs(color.rgb - prepare), vec3(threshold)));
 
-    bool is_blockentities = all(lessThan(abs(color.rgb - blockentities), vec3(threshold)));
 
-    if ( is_entities || is_unspecified || is_destroyProgess || is_prepare ) {
+    if ( is_blockentities ) {
+        gl_FragColor = primary_color;
+    }
+    else if ( is_entities ) {
         gl_FragColor = secondary_color;
     }
-    else if ( is_blockentities ) {
-        gl_FragColor = primary_color;
+    else if ( is_unspecified || is_destroyProgess || is_prepare ) {
+        gl_FragColor = tertiary_color;
     }
     else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
