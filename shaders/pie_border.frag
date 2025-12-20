@@ -25,14 +25,8 @@ void main() {
     bool is_prepare = all(lessThan(abs(color.rgb - prepare), vec3(threshold)));
 
 
-    if ( is_entities ) {
-        gl_FragColor = pie1_color;
-    }
-    else if ( is_unspecified || is_destroyProgess || is_prepare ) {
-        gl_FragColor = pie2_color;
-    }
-    else if ( is_blockentities ) {
-        gl_FragColor = pie3_color;
+    if ( is_entities || is_unspecified || is_destroyProgess || is_prepare || is_blockentities ) {
+        gl_FragColor = border_color;
     }
     else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);

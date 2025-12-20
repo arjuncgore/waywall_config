@@ -1,8 +1,10 @@
 -- ==== CONFIG ====
-local primary_col = "#272420"
+local primary_col = "#A9A8AF"
 local secondary_col = "#877665"
 local tertiary_col = "#574D43"
-local shadow_col = "#CCCCCC"
+local shadow_col = "#8BB5C9"
+
+local xkb_layout = "us"
 
 local tall_sens = 0.2220668274200729
 local normal_sens = 8.02844218054619
@@ -17,7 +19,6 @@ local keys = {
     launch_paceman = "Shift-P",
 
     toggle_rebinds = "Insert",
-
     delete_worlds  = "End",
 
 }
@@ -106,7 +107,7 @@ end
 -- ==== MAIN CONFIG ====
 local config = {
     input = {
-        layout = "us",
+        layout = xkb_layout,
         repeat_rate = 40,
         repeat_delay = 200,
 
@@ -128,16 +129,20 @@ local config = {
     },
     shaders = {
         ["pie_chart"] = {
-            vertex = read_file("shaders/pie_chart.vert"),
-            fragment = read_file("shaders/pie_chart.frag"),
+            vertex   = read_file("shaders/general.vert"),
+            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_chart.frag"),
         },
-        ["thin_percentages"] = {
-            vertex = read_file("shaders/percentages.vert"),
-            fragment = read_file("shaders/thin_percentages.frag"),
+        ["pie_border"] = {
+            vertex   = read_file("shaders/general.vert"),
+            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_border.frag"),
         },
-        ["tall_percentages"] = {
-            vertex = read_file("shaders/percentages.vert"),
-            fragment = read_file("shaders/tall_percentages.frag"),
+        ["text"] = {
+            vertex   = read_file("shaders/general.vert"),
+            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text.frag"),
+        },
+        ["text_bg"] = {
+            vertex   = read_file("shaders/general.vert"),
+            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text_bg.frag"),
         },
     },
 }
@@ -148,8 +153,17 @@ helpers.res_mirror( -- thin e_counter
     {
         src = { x = 1, y = 28, w = 49, h = 18 },
         dst = { x = 1500, y = 400, w = 343, h = 126 },
+        depth = 2,
+        shader = "text",
+    },
+    350, 1100
+)
+helpers.res_mirror( -- thin e_counter_bg
+    {
+        src = { x = 1, y = 28, w = 49, h = 18 },
+        dst = { x = 1507, y = 407, w = 343, h = 126 },
         depth = 1,
-        color_key = { input = "#dddddd", output = primary_col },
+        shader = "text_bg",
     },
     350, 1100
 )
@@ -157,8 +171,17 @@ helpers.res_mirror( -- tall e_counter
     {
         src = { x = 1, y = 28, w = 49, h = 18 },
         dst = { x = 1500, y = 400, w = 343, h = 126 },
+        depth = 2,
+        shader = "text",
+    },
+    384, 16384
+)
+helpers.res_mirror( -- tall e_counter_bg
+    {
+        src = { x = 1, y = 28, w = 49, h = 18 },
+        dst = { x = 1507, y = 407, w = 343, h = 126 },
         depth = 1,
-        color_key = { input = "#dddddd", output = primary_col },
+        shader = "text_bg",
     },
     384, 16384
 )
@@ -166,8 +189,17 @@ helpers.res_mirror( -- thin pie
     {
         src = { x = 21, y = 700, w = 318, h = 160 },
         dst = { x = 1517, y = 665, w = 367, h = 367 },
-        depth = 1,
+        depth = 2,
         shader = "pie_chart",
+    },
+    350, 1100
+)
+helpers.res_mirror( -- thin pie border
+    {
+        src = { x = 21, y = 700, w = 318, h = 160 },
+        dst = { x = 1512, y = 660, w = 377, h = 377 },
+        depth = 1,
+        shader = "pie_border",
     },
     350, 1100
 )
@@ -175,8 +207,24 @@ helpers.res_mirror( -- tall pie
     {
         src = { x = 54, y = 15984, w = 320, h = 160 },
         dst = { x = 1517, y = 665, w = 367, h = 367 },
-        depth = 1,
+        depth = 2,
         shader = "pie_chart",
+    },
+    384, 16384
+)
+helpers.res_mirror( -- tall pie border
+    {
+        src = { x = 54, y = 15984, w = 320, h = 160 },
+        dst = { x = 1512, y = 660, w = 377, h = 377 },
+        depth = 1,
+        shader = "pie_border",
+    },
+    384, 16384
+)
+helpers.res_mirror( -- tall pie
+    {
+        depth = 1,
+        shader = "pie_border",
     },
     384, 16384
 )
@@ -184,8 +232,17 @@ helpers.res_mirror( -- thin percentages
     {
         src = { x = 257, y = 879, w = 33, h = 25 },
         dst = { x = 1568, y = 1050, w = 264, h = 200 },
+        depth = 2,
+        shader = "text",
+    },
+    350, 1100
+)
+helpers.res_mirror( -- thin percentages_bg
+    {
+        src = { x = 257, y = 879, w = 33, h = 25 },
+        dst = { x = 1576, y = 1058, w = 264, h = 200 },
         depth = 1,
-        shader = "thin_percentages",
+        shader = "text_bg",
     },
     350, 1100
 )
@@ -193,8 +250,17 @@ helpers.res_mirror( -- tall percentages
     {
         src = { x = 291, y = 16163, w = 33, h = 25 },
         dst = { x = 1568, y = 1050, w = 264, h = 200 },
+        depth = 2,
+        shader = "text",
+    },
+    384, 16384
+)
+helpers.res_mirror( -- tall percentages_bg
+    {
+        src = { x = 291, y = 16163, w = 33, h = 25 },
+        dst = { x = 1576, y = 1058, w = 264, h = 200 },
         depth = 1,
-        shader = "tall_percentages",
+        shader = "text_bg",
     },
     384, 16384
 )
@@ -202,11 +268,10 @@ helpers.res_mirror( -- Eye Measure
     {
         src = { x = 177, y = 7902, w = 30, h = 580 },
         dst = { x = 94, y = 470, w = 900, h = 500 },
-        depth = 1,
+        depth = 2,
     },
     384, 16384
 )
-
 
 
 -- ==== IMAGES ====
@@ -214,7 +279,7 @@ helpers.res_image( -- Measuring Overlay
     overlay_path,
     {
         dst = { x = 94, y = 470, w = 900, h = 500 },
-        depth = 2,
+        depth = 3,
     },
     384, 16384
 )
@@ -223,7 +288,7 @@ helpers.res_image( -- Thin Overlay
     thin_overlay_path,
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 2,
+        depth = 3,
     },
     350, 1100
 )
@@ -232,7 +297,7 @@ helpers.res_image( -- Wide Overlay
     wide_overlay_path,
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 2,
+        depth = 3,
     },
     2560, 400
 )
@@ -241,7 +306,7 @@ helpers.res_image( -- Tall Overlay
     tall_overlay_path,
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 2,
+        depth = 3,
     },
     384, 16384
 )
@@ -327,7 +392,7 @@ config.actions = {
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)
-            waywall.set_keymap({ layout = "mc" })
+            waywall.set_keymap({ layout = xkb_layout })
         end
     end,
 
