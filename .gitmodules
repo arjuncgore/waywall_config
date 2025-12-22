@@ -1,0 +1,6 @@
+[submodule "paceman_overlay"]
+	path = paceman_overlay
+	url = https://github.com/arjuncgore/ww_paceman_overlay
+[submodule "ww_requests"]
+	path = ww_requests
+	url = https://github.com/arjuncgore/ww_requests
