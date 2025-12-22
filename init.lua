@@ -4,10 +4,10 @@ local secondary_col = "#877665"
 local tertiary_col = "#574D43"
 local shadow_col = "#8BB5C9"
 
-local xkb_layout = "us"
+local xkb_layout = "mc"
 
-local tall_sens = 0.2220668274200729
-local normal_sens = 8.02844218054619
+local tall_sens = 0.2
+local normal_sens = 8.0
 
 local keys = {
     thin           = "*-Alt_L",
@@ -143,6 +143,10 @@ local config = {
         ["text_bg"] = {
             vertex   = read_file("shaders/general.vert"),
             fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text_bg.frag"),
+        },
+        ["borders"] = {
+            vertex   = read_file("shaders/general.vert"),
+            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/borders.frag"),
         },
     },
 }
@@ -289,6 +293,7 @@ helpers.res_image( -- Thin Overlay
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
         depth = 3,
+        shader = "borders",
     },
     350, 1100
 )
@@ -298,6 +303,7 @@ helpers.res_image( -- Wide Overlay
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
         depth = 3,
+        shader = "borders",
     },
     2560, 400
 )
@@ -307,6 +313,7 @@ helpers.res_image( -- Tall Overlay
     {
         dst = { x = 0, y = 0, w = 2560, h = 1440 },
         depth = 3,
+        shader = "borders",
     },
     384, 16384
 )

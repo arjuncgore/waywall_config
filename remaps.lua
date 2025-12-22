@@ -1,33 +1,20 @@
 local remaps = {
     enabled = {
-        ["MB4"] = "F3",
-        ["LEFTALT"] = "LEFTCTRL",
+        ["MB4"] = "F3",           -- F3
+        ["LEFTALT"] = "LEFTCTRL", -- Stack Drop
 
-        ["MB5"] = "Home",
-
-        ["O"] = "Q",
-        ["Q"] = "O",
-        ["T"] = "BACKSPACE",
-        ["BACKSPACE"] = "T",
-        ["F1"] = "I",
-        ["I"] = "F1",
-        ["D"] = "X",
-        ["X"] = "RIGHTSHIFT",
-        ["RIGHTSHIFT"] = "D",
-        ["A"] = "K",
-        ["Z"] = "A",
-        ["CAPSLOCK"] = "0",
-
-        ["K"] = "CAPSLOCK",
-        ["0"] = "Z",
+        ["MB5"] = "Home",         -- Clear Chat
+        ["CAPSLOCK"] = "0",       -- Reset Pie
+        ["X"] = "RIGHTSHIFT",     -- Right Shift
+        ["F1"] = "F8",            -- Remove usage of F1
+        ["A"] = "X",              -- Remove usage of a
+        ["D"] = "BACKSPACE",      -- Backspace on D
 
     },
 
     disabled = {
-        ["MB4"] = "F3",
-        ["MB5"] = "F6",
-        ["F6"] = "MB5",
-        ["LEFTALT"] = "LEFTCTRL",
+        ["MB4"] = "F3",           -- F3
+        ["LEFTALT"] = "LEFTCTRL", -- Stack Drop
     }
 }
 
