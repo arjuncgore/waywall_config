@@ -1,1 +1,3 @@
-return require("init")
+local config = require("init")
+
+return config

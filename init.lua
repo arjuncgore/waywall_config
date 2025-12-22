@@ -406,8 +406,8 @@ config.actions = {
 }
 
 -- ==== PLUGINS ====
-for _, p in ipairs(plugins) do
-    require("plugins." .. p.name)(p.cfg, config)
-end
+-- for _, p in ipairs(plugins) do
+--     require("plugins." .. p.name)(p.cfg, config)
+-- end
 
 return config
