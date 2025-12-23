@@ -34,5 +34,5 @@ return {
         }
     },
     name = "paceman_overlay",
-    update_on_load = true,
+    update_on_load = false,
 }
