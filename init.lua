@@ -1,8 +1,8 @@
 -- ==== CONFIG ====
-local primary_col = "#A9A8AF"
-local secondary_col = "#877665"
-local tertiary_col = "#574D43"
-local shadow_col = "#8BB5C9"
+-- local primary_col = "#A9A8AF"
+-- local secondary_col = "#877665"
+-- local tertiary_col = "#574D43"
+-- local shadow_col = "#8BB5C9"
 
 local xkb_layout = "mc"
 
@@ -21,28 +21,6 @@ local keys = {
     toggle_rebinds = "Insert",
     delete_worlds  = "End",
 
-}
-
--- ==== PLUGINS CONFIG ====
-local plugins = {
-    {
-        name = "media_keys",
-        cfg = {
-            overlay = false,
-            mute = "F9",
-            previous = "F10",
-            play_pause = "F11",
-            next = "F12",
-            obs_pw = "aU1Vt3NniDIy1hzh",
-        }
-    },
-    -- {
-    --     name = "mpk",
-    --     cfg = {
-    --         launch = "8",
-    --         quit = "9",
-    --     }
-    -- }
 }
 
 
@@ -225,13 +203,6 @@ helpers.res_mirror( -- tall pie border
     },
     384, 16384
 )
-helpers.res_mirror( -- tall pie
-    {
-        depth = 1,
-        shader = "pie_border",
-    },
-    384, 16384
-)
 helpers.res_mirror( -- thin percentages
     {
         src = { x = 257, y = 879, w = 33, h = 25 },
@@ -287,7 +258,6 @@ helpers.res_image( -- Measuring Overlay
     },
     384, 16384
 )
-
 helpers.res_image( -- Thin Overlay
     thin_overlay_path,
     {
@@ -297,7 +267,6 @@ helpers.res_image( -- Thin Overlay
     },
     350, 1100
 )
-
 helpers.res_image( -- Wide Overlay
     wide_overlay_path,
     {
@@ -307,7 +276,6 @@ helpers.res_image( -- Wide Overlay
     },
     2560, 400
 )
-
 helpers.res_image( -- Tall Overlay
     tall_overlay_path,
     {
@@ -404,10 +372,5 @@ config.actions = {
     end,
 
 }
-
--- ==== PLUGINS ====
--- for _, p in ipairs(plugins) do
---     require("plugins." .. p.name)(p.cfg, config)
--- end
 
 return config
