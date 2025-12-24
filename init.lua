@@ -297,6 +297,8 @@ local resolutions = {
             else
                 thin_active = false
             end
+        else
+            return false
         end
     end,
     wide = function()
@@ -307,6 +309,8 @@ local resolutions = {
             else
                 return false
             end
+        else
+            return false
         end
     end,
     tall = function()
@@ -322,6 +326,8 @@ local resolutions = {
             else
                 return false
             end
+        else
+            return false
         end
     end,
 }
