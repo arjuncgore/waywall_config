@@ -4,7 +4,8 @@ local cfg = {
         X = 70,
         Y = 1280,
         color = '#000000',
-        size = 3
+        size = 3,
+        max_len = 30,
     },
     previous = "F10",
     play_pause = "F11",

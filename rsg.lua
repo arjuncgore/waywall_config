@@ -1,7 +1,4 @@
-local waywall = require("waywall")
 local config = require("init")
-
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/plug.waywall/?.lua"
 
 local plug = require("plug.init")
 plug.setup({
