@@ -10,5 +10,5 @@ return {
         require("rsg_utils.init").setup(config, cfg)
     end,
     name = "rsg_utils",
-    update_on_load = false,
+    update_on_load = true,
 }

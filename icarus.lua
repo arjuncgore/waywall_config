@@ -4,7 +4,7 @@ local config = require("init")
 local plug = require("plug.init")
 plug.setup({
 
-    dir = "rsg_plugins",
+    dir = "icarus_plugins",
     config = config,
     path = "~/.local/waywall",
 })

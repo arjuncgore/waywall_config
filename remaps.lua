@@ -6,9 +6,10 @@ local remaps = {
         ["MB5"] = "Home",         -- Clear Chat
         ["CAPSLOCK"] = "0",       -- Reset Pie
         ["X"] = "RIGHTSHIFT",     -- Right Shift
-        ["F1"] = "F8",            -- Remove usage of F1
-        ["A"] = "X",              -- Remove usage of a
         ["D"] = "BACKSPACE",      -- Backspace on D
+        ["T"] = "K",              -- Remove usage of T
+        ["A"] = "L",              -- Remove usage of A
+        ["F1"] = "F8",            -- Remove usage of F1
 
     },
 

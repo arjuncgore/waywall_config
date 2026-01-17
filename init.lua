@@ -34,7 +34,7 @@ local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
 local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
 local overlay_path = config_folder .. "resources/measuring_overlay.png"
 
-local pacem_path = home .. "mcsr/paceman-tracker-0.7.1.jar"
+local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
 local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.1.jar"
 
 
@@ -47,6 +47,7 @@ local remaps = require("remaps")
 -- ==== HELPERS ====
 local thin_active = false
 local remaps_active = true
+local remaps_text = nil
 local read_file = function(name)
     local file = io.open(config_folder .. name, "r")
     if file then
@@ -290,13 +291,16 @@ helpers.res_image( -- Tall Overlay
 local resolutions = {
     thin = function()
         if remaps_active then
-            helpers.ingame_only(helpers.toggle_res(350, 1100))()
             local act_width, act_height = waywall.active_res()
             if act_width == 350 and act_height == 1100 then
-                thin_active = true
-            else
                 thin_active = false
+                os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+            else
+                thin_active = true
+                os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
             end
+            waywall.sleep(17)
+            helpers.ingame_only(helpers.toggle_res(350, 1100))()
         else
             return false
         end
@@ -304,6 +308,15 @@ local resolutions = {
     wide = function()
         if remaps_active then
             if not waywall.get_key("F3") then
+                local act_width, act_height = waywall.active_res()
+                if act_width == 2560 and act_height == 400 then
+                    thin_active = false
+                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+                else
+                    thin_active = true
+                    os.execute('echo "' .. 2560 .. 'x' .. 410 .. '" > ~/.resize_state')
+                end
+                waywall.sleep(17)
                 helpers.ingame_only(helpers.toggle_res(2560, 400))()
                 thin_active = false
             else
@@ -316,6 +329,15 @@ local resolutions = {
     tall = function()
         if remaps_active then
             if not waywall.get_key("F3") then
+                local act_width, act_height = waywall.active_res()
+                if act_width == 384 and act_height == 16384 then
+                    thin_active = false
+                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+                else
+                    thin_active = true
+                    os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
+                end
+                waywall.sleep(17)
                 if thin_active then
                     helpers.toggle_res(350, 1100)()
                     helpers.toggle_res(384, 16384)()
@@ -363,13 +385,18 @@ config.actions = {
         if not is_pacem_running() then
             waywall.exec("java -jar " .. pacem_path .. " --nogui")
         end
+        print(is_pacem_running())
     end,
 
     [keys.toggle_rebinds] = function()
+        if remaps_text then
+            remaps_text:close(); remaps_text = nil
+        end
         if remaps_active then
             remaps_active = false
             waywall.set_remaps(remaps.disabled)
             waywall.set_keymap({ layout = "us" })
+            remaps_text = waywall.text("Chat Mode", { x = 50, y = 1350, color = "#9FA32B", size = 3 })
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)

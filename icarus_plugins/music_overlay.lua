@@ -1,5 +1,5 @@
 local cfg = {
-    overlay = false,
+    overlay = true,
     look = {
         X = 70,
         Y = 1280,
