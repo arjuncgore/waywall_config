@@ -310,10 +310,8 @@ local resolutions = {
             if not waywall.get_key("F3") then
                 local act_width, act_height = waywall.active_res()
                 if act_width == 2560 and act_height == 400 then
-                    thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
-                    thin_active = true
                     os.execute('echo "' .. 2560 .. 'x' .. 410 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
@@ -334,7 +332,6 @@ local resolutions = {
                     thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
-                    thin_active = true
                     os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)

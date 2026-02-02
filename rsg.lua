@@ -17,4 +17,5 @@ config.actions["End"] = function()
     waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
 end
 
+
 return config

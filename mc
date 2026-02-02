@@ -6,7 +6,7 @@ xkb_symbols "basic" {
     key <AE10> { [ 0, 0 ] };                        // CAPS > 0
     key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)
     key <AE02> { [ 2, plus ] };                     // 2 > 2 (shift +)
-    key <AE03> { [ 3, period ] };                   // 3 > 3 (shift .)
+    key <AE03> { [ d, period ] };                   // 3 > 3 (shift .)
     key <AE04> { [ 4, 4 ] };                        // 4 > 4
 
 
