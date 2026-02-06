@@ -87,6 +87,7 @@ end
 local config = {
     input = {
         layout = xkb_layout,
+        options = "caps:none",
         repeat_rate = 40,
         repeat_delay = 200,
 
