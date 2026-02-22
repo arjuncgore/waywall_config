@@ -5,7 +5,10 @@ precision highp float;
 #define RGBA8(r,g,b,a) (vec4((r)/255.0, (g)/255.0, (b)/255.0, (a)/255.0))
 
 // Borders                  = #9FA3B2
-const vec4 border_color  = RGB8(159.0, 163.0, 178.0);
+// const vec4 border_color  = RGB8(159.0, 163.0, 178.0);
+// const vec4 border_color  = RGB8(255.0, 255.0, 255.0);
+// const vec4 border_color  = RGB8(0.0, 0.0, 0.0);
+const vec4 border_color  = RGB8(255.0, 145.0, 164.0);
 
 // Pie Chart 1              = #3DC9A7
 const vec4 pie1_color    = RGB8(61.0, 201.0, 167.0);
