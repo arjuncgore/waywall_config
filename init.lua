@@ -372,14 +372,14 @@ local resolutions = {
     tall = function()
         if remaps_active then
             if not waywall.get_key("F3") then
-                -- local act_width, act_height = waywall.active_res()
-                -- if act_width == 384 and act_height == 16384 then
-                --     thin_active = false
-                --     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
-                -- else
-                --     os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
-                -- end
-                -- waywall.sleep(17)
+                local act_width, act_height = waywall.active_res()
+                if act_width == 384 and act_height == 16384 then
+                    thin_active = false
+                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+                else
+                    os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
+                end
+                waywall.sleep(17)
                 if thin_active then
                     helpers.toggle_res(350, 1100)()
                     helpers.toggle_res(384, 16384)()
