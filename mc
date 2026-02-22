@@ -6,7 +6,7 @@ xkb_symbols "basic" {
     key <AE10> { [ 0, 0 ] };                        // CAPS > 0
     key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)
     key <AE02> { [ 2, plus ] };                     // 2 > 2 (shift +)
-    key <AE03> { [ d, period ] };                   // 3 > 3 (shift .)
+    key <AE03> { [ d, period ] };                   // 3 > d (shift .)
     key <AE04> { [ 4, 4 ] };                        // 4 > 4
 
 
@@ -27,6 +27,7 @@ xkb_symbols "basic" {
     // SKIP X                                       // X > RShift
     key <AB03> { [ c , C ] };                       // C > C
     key <AB04> { [ i , I ] };                       // V > I
+    key <AB05> { [ k , K ] };                       // B > k
 
 };
 
