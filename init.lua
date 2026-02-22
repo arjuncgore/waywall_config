@@ -93,12 +93,16 @@ local config = {
 
         remaps = remaps.enabled,
         sensitivity = normal_sens,
-        confine_pointer = true,
+        confine_pointer = false,
     },
     theme = {
         background_png = background_path,
 
-        ninb_anchor = "topright",
+        ninb_anchor = {
+            position = "topleft",
+            x = 10,
+            y = 100
+        },
         ninb_opacity = 1,
     },
     experimental = {
@@ -250,6 +254,46 @@ helpers.res_mirror( -- Eye Measure
     384, 16384
 )
 
+for i = 0, 6, 1 do
+    helpers.res_mirror( -- tick
+        {
+            src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
+            dst = { x = 2350, y = 1070, w = 70, h = 90 },
+            depth = 3,
+            color_key = { input = "#6543CA", output = "#E6B057" }
+        },
+        0, 0
+    )
+    helpers.res_mirror( -- tick shadow
+        {
+            src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
+            dst = { x = 2360, y = 1080, w = 70, h = 90 },
+            depth = 2,
+            color_key = { input = "#6543CA", output = "#000000" }
+        },
+        0, 0
+    )
+end
+for i = 0, 3, 1 do
+    helpers.res_mirror( -- mob_spawner
+        {
+            src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+            dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
+            depth = 3,
+            color_key = { input = "#4de1ca", output = "#E6B057" }
+        },
+        0, 0
+    )
+    helpers.res_mirror( -- mob_spawner
+        {
+            src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+            dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
+            depth = 2,
+            color_key = { input = "#4de1ca", output = "#000000" }
+        },
+        0, 0
+    )
+end
 
 -- ==== IMAGES ====
 helpers.res_image( -- Measuring Overlay
@@ -290,7 +334,7 @@ helpers.res_image( -- Tall Overlay
 
 -- ==== RESOLUTIONS ====
 local resolutions = {
-    thin = function()
+    thin = helpers.ingame_only(function()
         if remaps_active then
             local act_width, act_height = waywall.active_res()
             if act_width == 350 and act_height == 1100 then
@@ -301,12 +345,12 @@ local resolutions = {
                 os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
             end
             waywall.sleep(17)
-            helpers.ingame_only(helpers.toggle_res(350, 1100))()
+            helpers.toggle_res(350, 1100)()
         else
             return false
         end
-    end,
-    wide = function()
+    end),
+    wide = helpers.ingame_only(function()
         if remaps_active then
             if not waywall.get_key("F3") then
                 local act_width, act_height = waywall.active_res()
@@ -316,7 +360,7 @@ local resolutions = {
                     os.execute('echo "' .. 2560 .. 'x' .. 410 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
-                helpers.ingame_only(helpers.toggle_res(2560, 400))()
+                helpers.toggle_res(2560, 400)()
                 thin_active = false
             else
                 return false
@@ -324,18 +368,18 @@ local resolutions = {
         else
             return false
         end
-    end,
+    end),
     tall = function()
         if remaps_active then
             if not waywall.get_key("F3") then
-                local act_width, act_height = waywall.active_res()
-                if act_width == 384 and act_height == 16384 then
-                    thin_active = false
-                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
-                else
-                    os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
-                end
-                waywall.sleep(17)
+                -- local act_width, act_height = waywall.active_res()
+                -- if act_width == 384 and act_height == 16384 then
+                --     thin_active = false
+                --     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+                -- else
+                --     os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
+                -- end
+                -- waywall.sleep(17)
                 if thin_active then
                     helpers.toggle_res(350, 1100)()
                     helpers.toggle_res(384, 16384)()
@@ -373,10 +417,8 @@ config.actions = {
     ["*-C"] = function()
         if waywall.get_key("F3") then
             waywall.show_floating(true)
-            return false
-        else
-            return false
         end
+        return false
     end,
 
     [keys.launch_paceman] = function()
@@ -403,5 +445,7 @@ config.actions = {
     end,
 
 }
+
+require("test").send(config)
 
 return config
