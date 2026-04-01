@@ -26,10 +26,6 @@ local keys = {
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
 
-local background_path = config_folder .. "resources/background.png"
-local tall_overlay_path = config_folder .. "resources/overlay_tall.png"
-local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
-local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
 local overlay_path = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
@@ -94,8 +90,6 @@ local config = {
         confine_pointer = false,
     },
     theme = {
-        background_png = background_path,
-
         ninb_anchor = {
             position = "topleft",
             x = 10,
@@ -171,90 +165,49 @@ helpers.res_mirror( -- tall e_counter_bg
     },
     384, 16384
 )
-helpers.res_mirror( -- thin pie
+helpers.res_mirror( -- thin pie norm
     {
         src = { x = 21, y = 700, w = 318, h = 160 },
-        dst = { x = 1517, y = 665, w = 367, h = 367 },
+        -- dst = { x = (2560 - 350) / 2 + 21 - 50, y = (1440 - 1100) / 2 + 700 - 50, w = 318 + 100, h = 160 + 100 },
+        dst = { x = (2560 - 350) / 2 + 21 - 50, y = (1440 - 1100) / 2 + 700 - 50, w = 318 + 100, h = 318 + 100 },
         depth = 2,
         shader = "pie_chart",
     },
     350, 1100
 )
-helpers.res_mirror( -- thin pie border
-    {
-        src = { x = 21, y = 700, w = 318, h = 160 },
-        dst = { x = 1512, y = 660, w = 377, h = 377 },
-        depth = 1,
-        shader = "pie_border",
-    },
-    350, 1100
-)
--- helpers.res_mirror( -- thin pie norm
---     {
---         src = { x = 21, y = 700, w = 318, h = 160 },
---         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1100) / 2 + 700, w = 318, h = 160 },
---         depth = 2,
---         shader = "pie_chart",
---     },
---     350, 1100
--- )
 helpers.res_mirror( -- tall pie
     {
         src = { x = 54, y = 15984, w = 320, h = 160 },
-        dst = { x = 1517, y = 665, w = 367, h = 367 },
+        -- dst = { x = (2560 - 350) / 2 + 21 - 50, y = (1440 - 1100) / 2 + 700 - 50, w = 318 + 100, h = 160 + 100 },
+        dst = { x = (2560 - 350) / 2 + 21 - 50, y = (1440 - 1100) / 2 + 700 - 50, w = 318 + 100, h = 318 + 100 },
         depth = 2,
         shader = "pie_chart",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- tall pie border
-    {
-        src = { x = 54, y = 15984, w = 320, h = 160 },
-        dst = { x = 1512, y = 660, w = 377, h = 377 },
-        depth = 1,
-        shader = "pie_border",
     },
     384, 16384
 )
 helpers.res_mirror( -- thin percentages
     {
         src = { x = 257, y = 879, w = 33, h = 25 },
-        dst = { x = 1568, y = 1050, w = 264, h = 200 },
-        depth = 2,
+        -- dst = { x = 1200, y = 890, w = 33 * 5, h = 25 * 5 },
+        dst = { x = 1180, y = 930, w = 33 * 8, h = 25 * 8 },
+        depth = 3,
         shader = "text",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- thin percentages_bg
-    {
-        src = { x = 257, y = 879, w = 33, h = 25 },
-        dst = { x = 1576, y = 1058, w = 264, h = 200 },
-        depth = 1,
-        shader = "text_bg",
     },
     350, 1100
 )
 helpers.res_mirror( -- tall percentages
     {
         src = { x = 291, y = 16163, w = 33, h = 25 },
-        dst = { x = 1568, y = 1050, w = 264, h = 200 },
-        depth = 2,
+        -- dst = { x = 1200, y = 890, w = 33 * 5, h = 25 * 5 },
+        dst = { x = 1180, y = 930, w = 33 * 8, h = 25 * 8 },
+        depth = 3,
         shader = "text",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- tall percentages_bg
-    {
-        src = { x = 291, y = 16163, w = 33, h = 25 },
-        dst = { x = 1576, y = 1058, w = 264, h = 200 },
-        depth = 1,
-        shader = "text_bg",
     },
     384, 16384
 )
 helpers.res_mirror( -- Eye Measure
     {
-        src = { x = 177, y = 7902, w = 30, h = 580 },
+        src = { x = 177 + 5, y = 7902, w = 20, h = 580 },
         dst = { x = 94, y = 470, w = 900, h = 500 },
         depth = 2,
     },
@@ -290,14 +243,13 @@ helpers.res_mirror( -- Chat
     },
     350, 1100
 )
-helpers.res_mirror( -- Chat Shadow
+helpers.res_mirror( -- Large Wide
     {
-        src = { x = 53, y = 1051, w = 81, h = 9 },
-        dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
-        depth = 2,
-        color_key = { input = "#FBFBFB", output = "#0A0A12" }
+        src = { x = 0, y = 0, w = 2540, h = 400 },
+        dst = { x = 0, y = 0, w = 2560, h = 1440 },
+        depth = 3,
     },
-    350, 1100
+    2560, 400
 )
 
 
@@ -310,41 +262,6 @@ helpers.res_image( -- Measuring Overlay
     },
     384, 16384
 )
-helpers.res_image( -- Thin Overlay
-    thin_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    350, 1100
-)
-helpers.res_image( -- Wide Overlay
-    wide_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    2560, 400
-)
--- helpers.res_mirror( -- Wide Overlay
---     {
---         src = { x = 0, y = 0, w = 8000, h = 1440 },
---         dst = { x = 0, y = 0, w = 2560, h = 1440 },
---         depth = 3,
---     },
---     8000, 1440
--- )
-helpers.res_image( -- Tall Overlay
-    tall_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    384, 16384
-)
 
 -- ==== RESOLUTIONS ====
 local resolutions = {
@@ -353,12 +270,9 @@ local resolutions = {
             local act_width, act_height = waywall.active_res()
             if act_width == 350 and act_height == 1100 then
                 thin_active = false
-                os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
             else
                 thin_active = true
-                os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
             end
-            waywall.sleep(17)
             helpers.toggle_res(350, 1100)()
         else
             return false
@@ -367,15 +281,7 @@ local resolutions = {
     wide = helpers.ingame_only(function()
         if remaps_active then
             if not waywall.get_key("F3") then
-                local act_width, act_height = waywall.active_res()
-                if act_width == 2560 and act_height == 400 then
-                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
-                else
-                    os.execute('echo "' .. 2560 .. 'x' .. 410 .. '" > ~/.resize_state')
-                end
-                waywall.sleep(17)
                 helpers.toggle_res(2560, 400)()
-                -- helpers.toggle_res(8000, 1440)()
                 thin_active = false
             else
                 return false
@@ -387,14 +293,6 @@ local resolutions = {
     tall = function()
         if remaps_active then
             if not waywall.get_key("F3") then
-                local act_width, act_height = waywall.active_res()
-                if act_width == 384 and act_height == 16384 then
-                    thin_active = false
-                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
-                else
-                    os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
-                end
-                waywall.sleep(17)
                 if thin_active then
                     helpers.toggle_res(350, 1100)()
                     helpers.toggle_res(384, 16384)()
@@ -462,16 +360,6 @@ config.actions = {
     [keys.delete_worlds] = function()
         waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
     end,
-
-    -- ["MB4"] = waywall.ingame_only(function()
-    --     if toggle_pie_dir_remaps then
-    --         waywall.set_remaps(remaps.enabled)
-    --     else
-    --         waywall.set_remaps(remaps.piedar_dir)
-    --     end
-    --     toggle_pie_dir_remaps = not toggle_pie_dir_remaps
-    --     return false
-    -- end),
 
 }
 

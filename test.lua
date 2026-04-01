@@ -6,8 +6,6 @@ local M = {}
 M.send = function(config)
     -- ========================== BEGIN TEST
 
-    require("ninbot_utils").setup(config, nil)
-
     local mpk = function()
         for _, key in ipairs({
             "Esc",
@@ -67,8 +65,6 @@ M.send = function(config)
         commands = {
             ["mpk"] = function() mpk() end,
             ["quit"] = function() quit() end,
-            ["test1"] = function() print("testing: test1") end,
-            ["test2"] = function() print("testing: test2") end,
         },
         arbitrary_command = function(key)
             local t = nil
