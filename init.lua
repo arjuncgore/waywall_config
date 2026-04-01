@@ -261,26 +261,6 @@ helpers.res_mirror( -- Eye Measure
     384, 16384
 )
 
--- for i = 0, 6, 1 do
---     helpers.res_mirror( -- tick
---         {
---             src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
---             dst = { x = 2350, y = 1070, w = 70, h = 90 },
---             depth = 3,
---             color_key = { input = "#6543CA", output = "#E6B057" }
---         },
---         0, 0
---     )
---     helpers.res_mirror( -- tick shadow
---         {
---             src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
---             dst = { x = 2360, y = 1080, w = 70, h = 90 },
---             depth = 2,
---             color_key = { input = "#6543CA", output = "#000000" }
---         },
---         0, 0
---     )
--- end
 for i = 0, 3, 1 do
     helpers.res_mirror( -- mob_spawner
         {
