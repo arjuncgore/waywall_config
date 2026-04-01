@@ -20,9 +20,7 @@ local keys = {
 
     toggle_rebinds = "Insert",
     delete_worlds  = "End",
-
 }
-
 
 -- ==== PATHS ====
 local home = os.getenv("HOME") .. "/"
@@ -35,7 +33,7 @@ local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
 local overlay_path = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
-local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.1.jar"
+local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 
 
 -- ==== IMPORTS ====
@@ -88,7 +86,7 @@ local config = {
     input = {
         layout = xkb_layout,
         options = "caps:none",
-        repeat_rate = 40,
+        repeat_rate = 60,
         repeat_delay = 200,
 
         remaps = remaps.enabled,
@@ -101,7 +99,7 @@ local config = {
         ninb_anchor = {
             position = "topleft",
             x = 10,
-            y = 100
+            y = 50
         },
         ninb_opacity = 1,
     },
@@ -191,6 +189,15 @@ helpers.res_mirror( -- thin pie border
     },
     350, 1100
 )
+-- helpers.res_mirror( -- thin pie norm
+--     {
+--         src = { x = 21, y = 700, w = 318, h = 160 },
+--         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1100) / 2 + 700, w = 318, h = 160 },
+--         depth = 2,
+--         shader = "pie_chart",
+--     },
+--     350, 1100
+-- )
 helpers.res_mirror( -- tall pie
     {
         src = { x = 54, y = 15984, w = 320, h = 160 },
@@ -254,26 +261,26 @@ helpers.res_mirror( -- Eye Measure
     384, 16384
 )
 
-for i = 0, 6, 1 do
-    helpers.res_mirror( -- tick
-        {
-            src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
-            dst = { x = 2350, y = 1070, w = 70, h = 90 },
-            depth = 3,
-            color_key = { input = "#6543CA", output = "#E6B057" }
-        },
-        0, 0
-    )
-    helpers.res_mirror( -- tick shadow
-        {
-            src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
-            dst = { x = 2360, y = 1080, w = 70, h = 90 },
-            depth = 2,
-            color_key = { input = "#6543CA", output = "#000000" }
-        },
-        0, 0
-    )
-end
+-- for i = 0, 6, 1 do
+--     helpers.res_mirror( -- tick
+--         {
+--             src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
+--             dst = { x = 2350, y = 1070, w = 70, h = 90 },
+--             depth = 3,
+--             color_key = { input = "#6543CA", output = "#E6B057" }
+--         },
+--         0, 0
+--     )
+--     helpers.res_mirror( -- tick shadow
+--         {
+--             src = { x = 2233, y = 1219 + 8 * i, w = 7, h = 9 },
+--             dst = { x = 2360, y = 1080, w = 70, h = 90 },
+--             depth = 2,
+--             color_key = { input = "#6543CA", output = "#000000" }
+--         },
+--         0, 0
+--     )
+-- end
 for i = 0, 3, 1 do
     helpers.res_mirror( -- mob_spawner
         {
@@ -294,6 +301,25 @@ for i = 0, 3, 1 do
         0, 0
     )
 end
+helpers.res_mirror( -- Chat
+    {
+        src = { x = 53, y = 1051, w = 81, h = 9 },
+        dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
+        depth = 3,
+        color_key = { input = "#FBFBFB", output = "#F2F2F7" }
+    },
+    350, 1100
+)
+helpers.res_mirror( -- Chat Shadow
+    {
+        src = { x = 53, y = 1051, w = 81, h = 9 },
+        dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
+        depth = 2,
+        color_key = { input = "#FBFBFB", output = "#0A0A12" }
+    },
+    350, 1100
+)
+
 
 -- ==== IMAGES ====
 helpers.res_image( -- Measuring Overlay
@@ -322,6 +348,14 @@ helpers.res_image( -- Wide Overlay
     },
     2560, 400
 )
+-- helpers.res_mirror( -- Wide Overlay
+--     {
+--         src = { x = 0, y = 0, w = 8000, h = 1440 },
+--         dst = { x = 0, y = 0, w = 2560, h = 1440 },
+--         depth = 3,
+--     },
+--     8000, 1440
+-- )
 helpers.res_image( -- Tall Overlay
     tall_overlay_path,
     {
@@ -361,6 +395,7 @@ local resolutions = {
                 end
                 waywall.sleep(17)
                 helpers.toggle_res(2560, 400)()
+                -- helpers.toggle_res(8000, 1440)()
                 thin_active = false
             else
                 return false
@@ -435,8 +470,8 @@ config.actions = {
         if remaps_active then
             remaps_active = false
             waywall.set_remaps(remaps.disabled)
-            waywall.set_keymap({ layout = "us" })
-            remaps_text = waywall.text("Chat Mode", { x = 50, y = 1350, color = "#9FA32B", size = 3 })
+            waywall.set_keymap({ layout = nil })
+            remaps_text = waywall.text("Chat Mode", { x = 710, y = 1340, color = "#9FA32B", size = 3 })
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)
@@ -444,8 +479,26 @@ config.actions = {
         end
     end,
 
+    [keys.delete_worlds] = function()
+        waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
+    end,
+
+    -- ["MB4"] = waywall.ingame_only(function()
+    --     if toggle_pie_dir_remaps then
+    --         waywall.set_remaps(remaps.enabled)
+    --     else
+    --         waywall.set_remaps(remaps.piedar_dir)
+    --     end
+    --     toggle_pie_dir_remaps = not toggle_pie_dir_remaps
+    --     return false
+    -- end),
+
 }
 
 require("test").send(config)
+
+require("crosshair").setup(config)
+
+require("mirrors")
 
 return config

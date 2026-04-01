@@ -9,13 +9,15 @@ plug.setup({
     path = "~/.local/waywall",
 })
 
-config.actions["F8"] = function()
-    print(plug.update_all())
+-- config.actions["F8"] = function()
+--     print(plug.update_all())
+-- end
+
+
+config.actions["Shift-K"] = function()
+    waywall.exec("pkill paceman")
 end
 
-config.actions["End"] = function()
-    waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
-end
-
+-- require("waywordle.init").setup(config)
 
 return config

@@ -1,0 +1,8 @@
+{
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.workspace.checkThirdParty": false,
+  "Lua.workspace.library": [
+    "/home/arjuncgore/waywall/waywall/lua"
+  ],
+  "Lua.telemetry.enable": false
+}

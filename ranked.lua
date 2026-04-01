@@ -9,4 +9,10 @@ plug.setup({
     path = "~/.local/waywall",
 })
 
+-- require("waywordle.init").setup(config)
+
+-- require("204wayt.init").setup(config, nil)
+
+-- require("nb_keys").setup(config)
+
 return config

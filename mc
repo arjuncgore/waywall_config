@@ -2,6 +2,10 @@ default partial alphanumeric_keys
 xkb_symbols "basic" {
     name[Group1] = "Minecraft";
 
+    key <FK01> { [ k, K ] };
+    key <FK02> { [ k, K ] };
+    key <FK03> { [ k, K ] };
+    key <LFSH> { [ Shift_L ] };
 
     key <AE10> { [ 0, 0 ] };                        // CAPS > 0
     key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)

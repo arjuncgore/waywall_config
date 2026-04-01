@@ -10,6 +10,7 @@ local remaps = {
         ["T"] = "K",                 -- Remove usage of T
         ["A"] = "L",                 -- Remove usage of A
         ["F1"] = "F8",               -- Remove usage of F1
+        ["K"] = "T",
 
     },
 
