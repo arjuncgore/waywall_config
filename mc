@@ -7,7 +7,7 @@ xkb_symbols "basic" {
     key <FK03> { [ k, K ] };
     key <LFSH> { [ Shift_L ] };
 
-    key <AE10> { [ 0, 0 ] };                        // CAPS > 0
+    key <AE10> { [ 0, 0 ] };                        // Z > 0
     key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)
     key <AE02> { [ 2, plus ] };                     // 2 > 2 (shift +)
     key <AE03> { [ d, period ] };                   // 3 > d (shift .)

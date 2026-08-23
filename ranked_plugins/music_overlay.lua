@@ -10,6 +10,7 @@ local cfg = {
     previous = "F10",
     play_pause = "F11",
     next = "F12",
+    args = "-p spotify",
 }
 
 return {
