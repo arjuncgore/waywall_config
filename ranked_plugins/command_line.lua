@@ -58,7 +58,7 @@ end
 return {
     url = "https://github.com/arjuncgore/ww_command_line",
     config = function(config)
-        require("command_line").setup(config, {
+        require("ww_command_line.init").setup(config, {
             start_key = "BACKSLASH",
             enter_key = "Return",
             look = {
@@ -68,14 +68,14 @@ return {
                 color = "#FFFFFF"
             },
             commands = {
-                ["quit"] = quit,
-                ["mpk"] = mpk,
+                ["quit"] = function() quit() end,
+                ["mpk"] = function() mpk() end,
             },
             arbitrary_command = function(key)
                 print(key)
             end,
         })
     end,
-    name = "command_line",
+    name = "ww_command_line",
     update_on_load = true,
 }

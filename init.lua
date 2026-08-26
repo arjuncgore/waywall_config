@@ -1,1 +1,1 @@
-/nix/store/sxnlcgi5w2sbpbp0s0q8q0yfdaqv3iqm-waywall-cfg.lua
+return require("main")
