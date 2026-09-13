@@ -351,7 +351,7 @@ helpers.res_image( -- Tall Overlay
 
 -- ==== RESOLUTIONS ====
 local resolutions = {
-    thin = helpers.ingame_only(function()
+    thin_old = helpers.ingame_only(function()
         if remaps_active then
             local act_width, act_height = waywall.active_res()
             if act_width == 350 and act_height == 1100 then
@@ -367,6 +367,29 @@ local resolutions = {
             return false
         end
     end),
+
+    thin = function()
+        if remaps_active then
+            local state = waywall.state()
+            if state.inworld == "paused" then
+                helpers.toggle_res(1500, 1440)()
+            else
+                local act_width, act_height = waywall.active_res()
+                if act_width == 350 and act_height == 1100 then
+                    thin_active = false
+                    os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
+                else
+                    thin_active = true
+                    os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
+                end
+                waywall.sleep(17)
+                helpers.toggle_res(350, 1100)()
+            end
+        else
+            return false
+        end
+    end,
+
     wide = helpers.ingame_only(function()
         if remaps_active then
             if not waywall.get_key("F3") then
@@ -465,6 +488,21 @@ config.actions = {
 
     [keys.delete_worlds] = function()
         waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
+    end,
+
+    ["F1"] = function()
+        local state = waywall.state()
+        if state.inworld == "paused" then
+            helpers.toggle_res(1500, 1440)()
+        end
+    end,
+
+    ["escape"] = function()
+        local act_width, act_height = waywall.active_res()
+        if act_width == 1500 and act_height == 1440 then
+            waywall.set_resolution(0, 0)
+        end
+        return false
     end,
 
     -- ["MB4"] = waywall.ingame_only(function()
