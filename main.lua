@@ -60,6 +60,7 @@ end
 local is_ninb_running = function()
     -- local handle = io.popen("pgrep -f 'Ninjabrain.*jar'")
     local handle = io.popen("pgrep -f 'ninjabrain-bot'")
+    -- local handle = io.popen("pgrep -f 'ninjabrain-bot-xwayland'")
     if handle then
         local result = handle:read("*l")
         handle:close()
@@ -450,6 +451,7 @@ config.actions = {
         if not is_ninb_running() then
             -- waywall.exec("java -Dawt.useSystemAAFontSettings=on -jar " .. nb_path)
             waywall.exec("ninjabrain-bot")
+            -- waywall.exec("ninjabrain-bot-xwayland")
             waywall.show_floating(true)
         else
             helpers.toggle_floating()
