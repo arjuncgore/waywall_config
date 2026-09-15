@@ -22,6 +22,16 @@ local keys = {
     delete_worlds  = "End",
 }
 
+local colors = {
+    border_color  = "#9FA3B2",
+    pie1_color    = "#3DC9A7",
+    pie2_color    = "#E6B057",
+    pie3_color    = "#F26B5E",
+    text_color    = "#F2F2F7",
+    text_bg_color = "#0A0A12"
+}
+
+
 -- ==== PATHS ====
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
@@ -82,6 +92,38 @@ local is_pacem_running = function()
     end
 end
 
+local hex_to_vec = function(var, hex)
+    hex = hex:match("^%s*(.-)%s*$")
+    hex = hex:gsub("^#", "")
+    hex = hex:lower()
+
+    local hex_segs = {}
+    for pair in hex:gmatch("%x%x") do
+        table.insert(hex_segs, pair)
+    end
+    if #hex_segs == 3 then
+        table.insert(hex_segs, "ff")
+    end
+
+    local r = tonumber(hex_segs[1], 16) / 255
+    local g = tonumber(hex_segs[2], 16) / 255
+    local b = tonumber(hex_segs[3], 16) / 255
+    local a = tonumber(hex_segs[4], 16) / 255
+
+    return "const vec4 " .. var .. " = vec4(" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ");"
+end
+
+
+local compile_colors = function(colors)
+    local output = "precision highp float;\n\n"
+
+    for name, hex in ipairs(colors) do
+        output = output .. hex_to_vec(name, hex) .. "\n\n"
+    end
+
+    return output
+end
+
 
 -- ==== MAIN CONFIG ====
 local config = {
@@ -116,23 +158,23 @@ local config = {
     shaders = {
         ["pie_chart"] = {
             vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_chart.frag"),
+            fragment = compile_colors(colors) .. read_file("shaders/pie_chart.frag"),
         },
         ["pie_border"] = {
             vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_border.frag"),
+            fragment = compile_colors(colors) .. read_file("shaders/pie_border.frag"),
         },
         ["text"] = {
             vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text.frag"),
+            fragment = compile_colors(colors) .. read_file("shaders/text.frag"),
         },
         ["text_bg"] = {
             vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text_bg.frag"),
+            fragment = compile_colors(colors) .. read_file("shaders/text_bg.frag"),
         },
         ["borders"] = {
             vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/borders.frag"),
+            fragment = compile_colors(colors) .. read_file("shaders/borders.frag"),
         },
     },
 }
