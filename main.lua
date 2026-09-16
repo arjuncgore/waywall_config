@@ -117,7 +117,7 @@ end
 local compile_colors = function(colors)
     local output = "precision highp float;\n\n"
 
-    for name, hex in ipairs(colors) do
+    for name, hex in pairs(colors) do
         output = output .. hex_to_vec(name, hex) .. "\n\n"
     end
 
