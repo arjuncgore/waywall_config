@@ -70,6 +70,18 @@ return {
             commands = {
                 ["quit"] = function() quit() end,
                 ["mpk"] = function() mpk() end,
+                ["1"] = function()
+                    THEME = 1
+                    local w, h = waywall.active_res()
+                    helpers.toggle_res(w, h)()
+                    helpers.toggle_res(w, h)()
+                end,
+                ["2"] = function()
+                    THEME = 2
+                    local w, h = waywall.active_res()
+                    helpers.toggle_res(w, h)()
+                    helpers.toggle_res(w, h)()
+                end,
             },
             arbitrary_command = function(key)
                 print(key)
