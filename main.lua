@@ -243,7 +243,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin e_counter_bg
         {
@@ -253,7 +253,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text_bg,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall e_counter
         {
@@ -263,7 +263,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall e_counter_bg
         {
@@ -273,7 +273,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text_bg,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin pie
         {
@@ -283,7 +283,7 @@ for idx, theme in ipairs(THEMES) do
             shader = pie_chart,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin pie border
         {
@@ -293,7 +293,7 @@ for idx, theme in ipairs(THEMES) do
             shader = pie_border,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     -- helpers2.res_mirror( -- thin pie norm
     --     {
@@ -303,7 +303,7 @@ for idx, theme in ipairs(THEMES) do
     --         shader = pie_chart,
     --     },
     --     350, 1100,
-    --     THEME == idx
+    --     function() return THEME == idx end
     -- )
     helpers2.res_mirror( -- tall pie
         {
@@ -313,7 +313,7 @@ for idx, theme in ipairs(THEMES) do
             shader = pie_chart,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall pie border
         {
@@ -323,7 +323,7 @@ for idx, theme in ipairs(THEMES) do
             shader = pie_border,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin percentages
         {
@@ -333,7 +333,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin percentages_bg
         {
@@ -343,7 +343,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text_bg,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall percentages
         {
@@ -353,7 +353,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall percentages_bg
         {
@@ -363,7 +363,7 @@ for idx, theme in ipairs(THEMES) do
             shader = text_bg,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- Eye Measure
         {
@@ -372,7 +372,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
 
     for i = 0, 3, 1 do
@@ -381,20 +381,20 @@ for idx, theme in ipairs(THEMES) do
                 src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
                 dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
                 depth = 3,
-                color_key = { input = "#4de1ca", output = "#E6B057" },
-                THEME == idx
+                color_key = { input = "#4de1ca", output = "#E6B057" }
             },
-            0, 0
+            0, 0,
+            function() return THEME == idx end
         )
         helpers2.res_mirror( -- mob_spawner
             {
                 src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
                 dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
                 depth = 2,
-                color_key = { input = "#4de1ca", output = "#000000" },
-                THEME == idx
+                color_key = { input = "#4de1ca", output = "#000000" }
             },
-            0, 0
+            0, 0,
+            function() return THEME == idx end
         )
     end
     helpers2.res_mirror( -- Chat
@@ -402,10 +402,10 @@ for idx, theme in ipairs(THEMES) do
             src = { x = 53, y = 1051, w = 81, h = 9 },
             dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
             depth = 3,
-            color_key = { input = "#FBFBFB", output = theme.colors.text_color },
-            THEME == idx
+            color_key = { input = "#FBFBFB", output = theme.colors.text_color }
         },
-        350, 1100
+        350, 1100,
+        function() return THEME == idx end
     )
     helpers2.res_mirror( -- Chat Shadow
         {
@@ -413,9 +413,9 @@ for idx, theme in ipairs(THEMES) do
             dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
             depth = 2,
             color_key = { input = "#FBFBFB", output = theme.colors.text_bg_color },
-            THEME == idx
         },
-        350, 1100
+        350, 1100,
+        function() return THEME == idx end
     )
 
 
@@ -426,7 +426,7 @@ for idx, theme in ipairs(THEMES) do
             dst = { x = 0, y = 0, w = 2560, h = 1440 },
             depth = -1,
         },
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_image( -- Measuring Overlay
         measuring_overlay,
@@ -435,7 +435,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_image( -- Thin Overlay
         thin_overlay_path,
@@ -445,7 +445,7 @@ for idx, theme in ipairs(THEMES) do
             shader = borders,
         },
         350, 1100,
-        THEME == idx
+        function() return THEME == idx end
     )
     helpers2.res_image( -- Wide Overlay
         wide_overlay_path,
@@ -455,7 +455,7 @@ for idx, theme in ipairs(THEMES) do
             shader = borders,
         },
         2560, 400,
-        THEME == idx
+        function() return THEME == idx end
     )
     -- helpers2.res_mirror( -- Wide Overlay
     --     {
@@ -464,7 +464,7 @@ for idx, theme in ipairs(THEMES) do
     --         depth = 3,
     --     },
     --     8000, 1440,
-    --     THEME == idx
+    --     function() return THEME == idx end
     -- )
     helpers2.res_image( -- Tall Overlay
         tall_overlay_path,
@@ -474,7 +474,7 @@ for idx, theme in ipairs(THEMES) do
             shader = borders,
         },
         384, 16384,
-        THEME == idx
+        function() return THEME == idx end
     )
 end
 -- ==== RESOLUTIONS ====
@@ -644,10 +644,6 @@ config.actions = {
     --     toggle_pie_dir_remaps = not toggle_pie_dir_remaps
     --     return false
     -- end),
-
-    ["L"] = function()
-        test_var = not test_var
-    end,
 
 }
 
