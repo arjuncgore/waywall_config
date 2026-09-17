@@ -53,8 +53,22 @@ THEMES = {
         measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/sam/measuring_overlay.png",
         background = os.getenv("HOME") .. "/.config/waywall/resources/sam/background.png",
     },
-    -- { desc = "La La Land", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
+    {
+        description = "Lcok in",
+        colors = {
+            border_color  = "#FFFFFF",
+            pie1_color    = "#E446C4",
+            pie2_color    = "#46CE66",
+            pie3_color    = "#EC6E4E",
+            text_color    = "#FFFFFF",
+            text_bg_color = "#333333"
+        },
+        measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/lockin/measuring_overlay.png",
+        background = os.getenv("HOME") .. "/.config/waywall/resources/lockin/background.png",
+    },
+
     -- { desc = "Lock In", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
+    -- { desc = "La La Land", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
 }
 
 
