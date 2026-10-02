@@ -80,6 +80,7 @@ local config_folder = home .. ".config/waywall/"
 local tall_overlay_path = config_folder .. "resources/overlay_tall.png"
 local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
 local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
+local ed_overlay_path = config_folder .. "resources/overlay_ed.png"
 -- local measuring_overlay = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
@@ -256,7 +257,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = text,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin e_counter_bg
@@ -266,7 +267,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = text_bg,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall e_counter
@@ -291,32 +292,32 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin pie
         {
-            src = { x = 21, y = 700, w = 318, h = 160 },
+            src = { x = 21, y = 1040, w = 318, h = 160 },
             dst = { x = 1517, y = 665, w = 367, h = 367 },
             depth = 2,
             shader = pie_chart,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin pie border
         {
-            src = { x = 21, y = 700, w = 318, h = 160 },
+            src = { x = 21, y = 1040, w = 318, h = 160 },
             dst = { x = 1512, y = 660, w = 377, h = 377 },
             depth = 1,
             shader = pie_border,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     -- helpers2.res_mirror( -- thin pie norm
     --     {
     --         src = { x = 21, y = 700, w = 318, h = 160 },
-    --         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1100) / 2 + 700, w = 318, h = 160 },
+    --         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1440) / 2 + 700, w = 318, h = 160 },
     --         depth = 2,
     --         shader = pie_chart,
     --     },
-    --     350, 1100,
+    --     350, 1440,
     --     function() return THEME == idx end
     -- )
     helpers2.res_mirror( -- tall pie
@@ -341,22 +342,22 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin percentages
         {
-            src = { x = 257, y = 879, w = 33, h = 25 },
+            src = { x = 257, y = 1219, w = 33, h = 25 },
             dst = { x = 1568, y = 1050, w = 264, h = 200 },
             depth = 2,
             shader = text,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin percentages_bg
         {
-            src = { x = 257, y = 879, w = 33, h = 25 },
+            src = { x = 257, y = 1219, w = 33, h = 25 },
             dst = { x = 1576, y = 1058, w = 264, h = 200 },
             depth = 1,
             shader = text_bg,
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall percentages
@@ -413,22 +414,22 @@ for idx, theme in ipairs(THEMES) do
     end
     helpers2.res_mirror( -- Chat
         {
-            src = { x = 53, y = 1051, w = 81, h = 9 },
+            src = { x = 53, y = 1391, w = 81, h = 9 },
             dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
             depth = 3,
             color_key = { input = "#FBFBFB", output = theme.colors.text_color }
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- Chat Shadow
         {
-            src = { x = 53, y = 1051, w = 81, h = 9 },
+            src = { x = 53, y = 1391, w = 81, h = 9 },
             dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
             depth = 2,
             color_key = { input = "#FBFBFB", output = theme.colors.text_bg_color },
         },
-        350, 1100,
+        350, 1440,
         function() return THEME == idx end
     )
 
@@ -458,7 +459,17 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             shader = borders,
         },
-        350, 1100,
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- ED Overlay
+        ed_overlay_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = 3,
+            shader = borders,
+        },
+        1500, 1440,
         function() return THEME == idx end
     )
     helpers2.res_image( -- Wide Overlay
@@ -496,7 +507,7 @@ local resolutions = {
     thin_old = helpers.ingame_only(function()
         if remaps_active then
             local act_width, act_height = waywall.active_res()
-            if act_width == 350 and act_height == 1100 then
+            if act_width == 350 and act_height == 1440 then
                 thin_active = false
                 os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
             else
@@ -504,7 +515,7 @@ local resolutions = {
                 os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
             end
             waywall.sleep(17)
-            helpers.toggle_res(350, 1100)()
+            helpers.toggle_res(350, 1440)()
         else
             return false
         end
@@ -517,7 +528,7 @@ local resolutions = {
                 helpers.toggle_res(1500, 1440)()
             else
                 local act_width, act_height = waywall.active_res()
-                if act_width == 350 and act_height == 1100 then
+                if act_width == 350 and act_height == 1440 then
                     thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
@@ -525,7 +536,7 @@ local resolutions = {
                     os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
-                helpers.toggle_res(350, 1100)()
+                helpers.toggle_res(350, 1440)()
             end
         else
             return false
@@ -564,7 +575,7 @@ local resolutions = {
                 end
                 waywall.sleep(17)
                 if thin_active then
-                    helpers.toggle_res(350, 1100)()
+                    helpers.toggle_res(350, 1440)()
                     helpers.toggle_res(384, 16384)()
                 else
                     helpers.toggle_res(384, 16384, tall_sens)()
