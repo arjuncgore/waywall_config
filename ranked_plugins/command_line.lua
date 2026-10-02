@@ -89,5 +89,6 @@ return {
         })
     end,
     name = "ww_command_line",
+    enabled = true,
     update_on_load = true,
 }

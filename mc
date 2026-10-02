@@ -27,8 +27,8 @@ xkb_symbols "basic" {
     key <AC04> { [ b , B ] };                       // F > B
 
 
-    key <AB01> { [ x , X ] };                       // Z > X
-    // SKIP X                                       // X > RShift
+    // SKIP Z                                       // Z > 0
+    // SKIP X                                       // X > LEFTCTRL
     key <AB03> { [ c , C ] };                       // C > C
     key <AB04> { [ i , I ] };                       // V > I
     key <AB05> { [ k , K ] };                       // B > k
