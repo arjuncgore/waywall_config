@@ -6,12 +6,17 @@ xkb_symbols "basic" {
     key <FK02> { [ k, K ] };
     key <FK03> { [ k, K ] };
     key <LFSH> { [ Shift_L ] };
-
     key <AE10> { [ 0, 0 ] };                        // Z > 0
-    key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)
-    key <AE02> { [ 2, plus ] };                     // 2 > 2 (shift +)
-    key <AE03> { [ d, period ] };                   // 3 > d (shift .)
-    key <AE04> { [ 4, 4 ] };                        // 4 > 4
+
+//    key <AE01> { [ 1, 8 ] };                        // 1 > 1 (shift 8)
+//    key <AE02> { [ 2, plus ] };                     // 2 > 2 (shift +)
+//    key <AE03> { [ d, period ] };                   // 3 > d (shift .)
+//    key <AE04> { [ 4, 4 ] };                        // 4 > 4
+
+    key <AD06> { [ 1, 8 ] };                        // 1 > 1 (shift 8) (Y)
+    key <AC07> { [ 2, plus ] };                     // 2 > 2 (shift +) (J)
+    key <AB07> { [ d, period ] };                   // 3 > d (shift .) (M)
+    key <AB06> { [ 4, 4 ] };                        // 4 > 4 (N)
 
 
     key <AD01> { [ o, O ] };                        // Q > O

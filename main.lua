@@ -100,6 +100,8 @@ local remaps = require("remaps")
 
 
 -- ==== HELPERS ====
+NORMAL_REMAPS = remaps.enabled
+PIE_MIRRORS = true
 local thin_active = false
 local remaps_active = true
 local remaps_text = nil
@@ -682,8 +684,6 @@ require("test").send(config)
 
 require("crosshair").setup(config)
 
-if test_var then
-    require("mirrors")
-end
+require("pie_mirrors")
 
 return config
