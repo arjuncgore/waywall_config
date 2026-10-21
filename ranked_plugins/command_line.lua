@@ -1,6 +1,17 @@
 local waywall = require("waywall")
 local helpers = require("waywall.helpers")
 
+local toggle_theme = function(x)
+    if THEMES[x] then
+        THEME = x
+        local w, h = waywall.active_res()
+        helpers.toggle_res(w, h)()
+        helpers.toggle_res(w, h)()
+    else
+        return false
+    end
+end
+
 local quit = function()
     for _, key in ipairs({
         "Esc",
@@ -72,10 +83,13 @@ return {
                 ["mpk"] = function() mpk() end,
             },
             arbitrary_command = function(key)
-                print(key)
+                if not toggle_theme(tonumber(key)) then
+                    print(key)
+                end
             end,
         })
     end,
     name = "ww_command_line",
+    enabled = true,
     update_on_load = true,
 }

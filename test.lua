@@ -23,6 +23,14 @@ M.send = function(config)
     -- end
 
 
+    -- config.window = {
+    --     fullscreen_width = 2560 / 2,
+    --     fullscreen_height = 1440 / 2,
+    -- }
+
+
+
+
     -- ========================== END TEST
 end
 

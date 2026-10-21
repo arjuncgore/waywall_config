@@ -9,6 +9,8 @@ local xkb_layout = "mc"
 local tall_sens = 0.2
 local normal_sens = 8.0
 
+local helpers2 = require("helpers_2")
+
 local keys = {
     thin           = "*-Alt_L",
     wide           = "*-B",
@@ -22,15 +24,70 @@ local keys = {
     delete_worlds  = "End",
 }
 
+THEME = 1
+
+THEMES = {
+    {
+        description = "Finn and Jake",
+        colors = {
+            -- border_color  = "#9FA3B277",
+            -- pie1_color    = "#3DC9A777",
+            -- pie2_color    = "#E6B05777",
+            -- pie3_color    = "#F26B5E77",
+            -- text_color    = "#F2F2F777",
+            -- text_bg_color = "#0A0A1277"
+            border_color  = "#9FA3B2",
+            pie1_color    = "#3DC9A7",
+            pie2_color    = "#E6B057",
+            pie3_color    = "#F26B5E",
+            text_color    = "#F2F2F7",
+            text_bg_color = "#0A0A12"
+        },
+        measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/faj/measuring_overlay.png",
+        background = os.getenv("HOME") .. "/.config/waywall/resources/faj/background.png",
+    },
+    {
+        description = "Simon and Marcy",
+        colors = {
+            border_color  = "#272420",
+            pie1_color    = "#877665",
+            pie2_color    = "#574D43",
+            pie3_color    = "#272420",
+            text_color    = "#272420",
+            text_bg_color = "#CCCCCC"
+        },
+        measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/sam/measuring_overlay.png",
+        background = os.getenv("HOME") .. "/.config/waywall/resources/sam/background.png",
+    },
+    {
+        description = "Lock in",
+        colors = {
+            border_color  = "#FFFFFF",
+            pie1_color    = "#E446C4",
+            pie2_color    = "#46CE66",
+            pie3_color    = "#EC6E4E",
+            text_color    = "#FFFFFF",
+            text_bg_color = "#333333"
+        },
+        measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/lockin/measuring_overlay.png",
+        background = os.getenv("HOME") .. "/.config/waywall/resources/lockin/background.png",
+    },
+
+    -- { desc = "Lock In", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
+    -- { desc = "La La Land", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
+}
+
+
 -- ==== PATHS ====
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
 
-local background_path = config_folder .. "resources/background.png"
+-- local background_path = config_folder .. "resources/background.png"
 local tall_overlay_path = config_folder .. "resources/overlay_tall.png"
 local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
 local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
-local overlay_path = config_folder .. "resources/measuring_overlay.png"
+local ed_overlay_path = config_folder .. "resources/overlay_ed.png"
+-- local measuring_overlay = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
 local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
@@ -43,6 +100,8 @@ local remaps = require("remaps")
 
 
 -- ==== HELPERS ====
+NORMAL_REMAPS = remaps.enabled
+PIE_MIRRORS = true
 local thin_active = false
 local remaps_active = true
 local remaps_text = nil
@@ -82,6 +141,38 @@ local is_pacem_running = function()
     end
 end
 
+local hex_to_vec = function(var, hex)
+    hex = hex:match("^%s*(.-)%s*$")
+    hex = hex:gsub("^#", "")
+    hex = hex:lower()
+
+    local hex_segs = {}
+    for pair in hex:gmatch("%x%x") do
+        table.insert(hex_segs, pair)
+    end
+    if #hex_segs == 3 then
+        table.insert(hex_segs, "ff")
+    end
+
+    local r = tonumber(hex_segs[1], 16) / 255
+    local g = tonumber(hex_segs[2], 16) / 255
+    local b = tonumber(hex_segs[3], 16) / 255
+    local a = tonumber(hex_segs[4], 16) / 255
+
+    return "const vec4 " .. var .. " = vec4(" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ");"
+end
+
+
+local compile_colors = function(colors)
+    local output = "precision highp float;\n\n"
+
+    for name, hex in pairs(colors) do
+        output = output .. hex_to_vec(name, hex) .. "\n\n"
+    end
+
+    return output
+end
+
 
 -- ==== MAIN CONFIG ====
 local config = {
@@ -96,7 +187,7 @@ local config = {
         confine_pointer = true,
     },
     theme = {
-        background_png = background_path,
+        -- background_png = background_path,
 
         ninb_anchor = {
             position = "topleft",
@@ -114,248 +205,317 @@ local config = {
         tearing = true,
     },
     shaders = {
-        ["pie_chart"] = {
-            vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_chart.frag"),
-        },
-        ["pie_border"] = {
-            vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/pie_border.frag"),
-        },
-        ["text"] = {
-            vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text.frag"),
-        },
-        ["text_bg"] = {
-            vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/text_bg.frag"),
-        },
-        ["borders"] = {
-            vertex   = read_file("shaders/general.vert"),
-            fragment = read_file("shaders/colors.glsl") .. "\n" .. read_file("shaders/borders.frag"),
-        },
+        --     ["pie_chart"] = {
+        --         vertex   = read_file("shaders/general.vert"),
+        --         fragment = compile_colors(colors) .. read_file("shaders/pie_chart.frag"),
+        --     },
+        --     ["pie_border"] = {
+        --         vertex   = read_file("shaders/general.vert"),
+        --         fragment = compile_colors(colors) .. read_file("shaders/pie_border.frag"),
+        --     },
+        --     ["text"] = {
+        --         vertex   = read_file("shaders/general.vert"),
+        --         fragment = compile_colors(colors) .. read_file("shaders/text.frag"),
+        --     },
+        --     ["text_bg"] = {
+        --         vertex   = read_file("shaders/general.vert"),
+        --         fragment = compile_colors(colors) .. read_file("shaders/text_bg.frag"),
+        --     },
+        --     ["borders"] = {
+        --         vertex   = read_file("shaders/general.vert"),
+        --         fragment = compile_colors(colors) .. read_file("shaders/borders.frag"),
+        --     },
     },
 }
 
 
 -- ==== MIRRORS ====
-helpers.res_mirror( -- thin e_counter
-    {
-        src = { x = 1, y = 28, w = 49, h = 18 },
-        dst = { x = 1500, y = 400, w = 343, h = 126 },
-        depth = 2,
-        shader = "text",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- thin e_counter_bg
-    {
-        src = { x = 1, y = 28, w = 49, h = 18 },
-        dst = { x = 1507, y = 407, w = 343, h = 126 },
-        depth = 1,
-        shader = "text_bg",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- tall e_counter
-    {
-        src = { x = 1, y = 28, w = 49, h = 18 },
-        dst = { x = 1500, y = 400, w = 343, h = 126 },
-        depth = 2,
-        shader = "text",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- tall e_counter_bg
-    {
-        src = { x = 1, y = 28, w = 49, h = 18 },
-        dst = { x = 1507, y = 407, w = 343, h = 126 },
-        depth = 1,
-        shader = "text_bg",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- thin pie
-    {
-        src = { x = 21, y = 700, w = 318, h = 160 },
-        dst = { x = 1517, y = 665, w = 367, h = 367 },
-        depth = 2,
-        shader = "pie_chart",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- thin pie border
-    {
-        src = { x = 21, y = 700, w = 318, h = 160 },
-        dst = { x = 1512, y = 660, w = 377, h = 377 },
-        depth = 1,
-        shader = "pie_border",
-    },
-    350, 1100
-)
--- helpers.res_mirror( -- thin pie norm
---     {
---         src = { x = 21, y = 700, w = 318, h = 160 },
---         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1100) / 2 + 700, w = 318, h = 160 },
---         depth = 2,
---         shader = "pie_chart",
---     },
---     350, 1100
--- )
-helpers.res_mirror( -- tall pie
-    {
-        src = { x = 54, y = 15984, w = 320, h = 160 },
-        dst = { x = 1517, y = 665, w = 367, h = 367 },
-        depth = 2,
-        shader = "pie_chart",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- tall pie border
-    {
-        src = { x = 54, y = 15984, w = 320, h = 160 },
-        dst = { x = 1512, y = 660, w = 377, h = 377 },
-        depth = 1,
-        shader = "pie_border",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- thin percentages
-    {
-        src = { x = 257, y = 879, w = 33, h = 25 },
-        dst = { x = 1568, y = 1050, w = 264, h = 200 },
-        depth = 2,
-        shader = "text",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- thin percentages_bg
-    {
-        src = { x = 257, y = 879, w = 33, h = 25 },
-        dst = { x = 1576, y = 1058, w = 264, h = 200 },
-        depth = 1,
-        shader = "text_bg",
-    },
-    350, 1100
-)
-helpers.res_mirror( -- tall percentages
-    {
-        src = { x = 291, y = 16163, w = 33, h = 25 },
-        dst = { x = 1568, y = 1050, w = 264, h = 200 },
-        depth = 2,
-        shader = "text",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- tall percentages_bg
-    {
-        src = { x = 291, y = 16163, w = 33, h = 25 },
-        dst = { x = 1576, y = 1058, w = 264, h = 200 },
-        depth = 1,
-        shader = "text_bg",
-    },
-    384, 16384
-)
-helpers.res_mirror( -- Eye Measure
-    {
-        src = { x = 177, y = 7902, w = 30, h = 580 },
-        dst = { x = 94, y = 470, w = 900, h = 500 },
-        depth = 2,
-    },
-    384, 16384
-)
-
-for i = 0, 3, 1 do
-    helpers.res_mirror( -- mob_spawner
+for idx, theme in ipairs(THEMES) do
+    local pie_chart = theme.description .. ": pie_chart"
+    local pie_border = theme.description .. ": pie_border"
+    local text = theme.description .. ": text"
+    local text_bg = theme.description .. ": text_bg"
+    local borders = theme.description .. ": borders"
+    local background_path = theme.background
+    local measuring_overlay = theme.measuring_overlay
+    config.shaders[pie_chart] = {
+        vertex   = read_file("shaders/general.vert"),
+        fragment = compile_colors(theme.colors) .. read_file("shaders/pie_chart.frag"),
+    }
+    config.shaders[pie_border] = {
+        vertex   = read_file("shaders/general.vert"),
+        fragment = compile_colors(theme.colors) .. read_file("shaders/pie_border.frag"),
+    }
+    config.shaders[text] = {
+        vertex   = read_file("shaders/general.vert"),
+        fragment = compile_colors(theme.colors) .. read_file("shaders/text.frag"),
+    }
+    config.shaders[text_bg] = {
+        vertex   = read_file("shaders/general.vert"),
+        fragment = compile_colors(theme.colors) .. read_file("shaders/text_bg.frag"),
+    }
+    config.shaders[borders] = {
+        vertex   = read_file("shaders/general.vert"),
+        fragment = compile_colors(theme.colors) .. read_file("shaders/borders.frag"),
+    }
+    helpers2.res_mirror( -- thin e_counter
         {
-            src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
-            dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
-            depth = 3,
-            color_key = { input = "#4de1ca", output = "#E6B057" }
-        },
-        0, 0
-    )
-    helpers.res_mirror( -- mob_spawner
-        {
-            src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
-            dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
+            src = { x = 1, y = 28, w = 49, h = 18 },
+            dst = { x = 1500, y = 400, w = 343, h = 126 },
             depth = 2,
-            color_key = { input = "#4de1ca", output = "#000000" }
+            shader = text,
         },
-        0, 0
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- thin e_counter_bg
+        {
+            src = { x = 1, y = 28, w = 49, h = 18 },
+            dst = { x = 1507, y = 407, w = 343, h = 126 },
+            depth = 1,
+            shader = text_bg,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- tall e_counter
+        {
+            src = { x = 1, y = 28, w = 49, h = 18 },
+            dst = { x = 1500, y = 400, w = 343, h = 126 },
+            depth = 2,
+            shader = text,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- tall e_counter_bg
+        {
+            src = { x = 1, y = 28, w = 49, h = 18 },
+            dst = { x = 1507, y = 407, w = 343, h = 126 },
+            depth = 1,
+            shader = text_bg,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- thin pie
+        {
+            src = { x = 21, y = 1040, w = 318, h = 160 },
+            dst = { x = 1517, y = 665, w = 367, h = 367 },
+            depth = 2,
+            shader = pie_chart,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- thin pie border
+        {
+            src = { x = 21, y = 1040, w = 318, h = 160 },
+            dst = { x = 1512, y = 660, w = 377, h = 377 },
+            depth = 1,
+            shader = pie_border,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    -- helpers2.res_mirror( -- thin pie norm
+    --     {
+    --         src = { x = 21, y = 700, w = 318, h = 160 },
+    --         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1440) / 2 + 700, w = 318, h = 160 },
+    --         depth = 2,
+    --         shader = pie_chart,
+    --     },
+    --     350, 1440,
+    --     function() return THEME == idx end
+    -- )
+    helpers2.res_mirror( -- tall pie
+        {
+            src = { x = 54, y = 15984, w = 320, h = 160 },
+            dst = { x = 1517, y = 665, w = 367, h = 367 },
+            depth = 2,
+            shader = pie_chart,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- tall pie border
+        {
+            src = { x = 54, y = 15984, w = 320, h = 160 },
+            dst = { x = 1512, y = 660, w = 377, h = 377 },
+            depth = 1,
+            shader = pie_border,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- thin percentages
+        {
+            src = { x = 257, y = 1219, w = 33, h = 25 },
+            dst = { x = 1568, y = 1050, w = 264, h = 200 },
+            depth = 2,
+            shader = text,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- thin percentages_bg
+        {
+            src = { x = 257, y = 1219, w = 33, h = 25 },
+            dst = { x = 1576, y = 1058, w = 264, h = 200 },
+            depth = 1,
+            shader = text_bg,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- tall percentages
+        {
+            src = { x = 291, y = 16163, w = 33, h = 25 },
+            dst = { x = 1568, y = 1050, w = 264, h = 200 },
+            depth = 2,
+            shader = text,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- tall percentages_bg
+        {
+            src = { x = 291, y = 16163, w = 33, h = 25 },
+            dst = { x = 1576, y = 1058, w = 264, h = 200 },
+            depth = 1,
+            shader = text_bg,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- Eye Measure
+        {
+            src = { x = 177, y = 7902, w = 30, h = 580 },
+            dst = { x = 94, y = 470, w = 900, h = 500 },
+            depth = 2,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+
+    for i = 0, 3, 1 do
+        helpers2.res_mirror( -- mob_spawner
+            {
+                src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+                dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
+                depth = 3,
+                color_key = { input = "#4de1ca", output = "#E6B057" }
+            },
+            0, 0,
+            function() return THEME == idx end
+        )
+        helpers2.res_mirror( -- mob_spawner
+            {
+                src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+                dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
+                depth = 2,
+                color_key = { input = "#4de1ca", output = "#000000" }
+            },
+            0, 0,
+            function() return THEME == idx end
+        )
+    end
+    helpers2.res_mirror( -- Chat
+        {
+            src = { x = 53, y = 1391, w = 81, h = 9 },
+            dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
+            depth = 3,
+            color_key = { input = "#FBFBFB", output = theme.colors.text_color }
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_mirror( -- Chat Shadow
+        {
+            src = { x = 53, y = 1391, w = 81, h = 9 },
+            dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
+            depth = 2,
+            color_key = { input = "#FBFBFB", output = theme.colors.text_bg_color },
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+
+
+    -- ==== IMAGES ====
+    helpers2.background( -- Background
+        background_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = -1,
+        },
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- Measuring Overlay
+        measuring_overlay,
+        {
+            dst = { x = 94, y = 470, w = 900, h = 500 },
+            depth = 3,
+        },
+        384, 16384,
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- Thin Overlay
+        thin_overlay_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = 3,
+            shader = borders,
+        },
+        350, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- ED Overlay
+        ed_overlay_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = 3,
+            shader = borders,
+        },
+        1500, 1440,
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- Wide Overlay
+        wide_overlay_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = 3,
+            shader = borders,
+        },
+        2560, 400,
+        function() return THEME == idx end
+    )
+    -- helpers2.res_mirror( -- Wide Overlay
+    --     {
+    --         src = { x = 0, y = 0, w = 8000, h = 1440 },
+    --         dst = { x = 0, y = 0, w = 2560, h = 1440 },
+    --         depth = 3,
+    --     },
+    --     8000, 1440,
+    --     function() return THEME == idx end
+    -- )
+    helpers2.res_image( -- Tall Overlay
+        tall_overlay_path,
+        {
+            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            depth = 3,
+            shader = borders,
+        },
+        384, 16384,
+        function() return THEME == idx end
     )
 end
-helpers.res_mirror( -- Chat
-    {
-        src = { x = 53, y = 1051, w = 81, h = 9 },
-        dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
-        depth = 3,
-        color_key = { input = "#FBFBFB", output = "#F2F2F7" }
-    },
-    350, 1100
-)
-helpers.res_mirror( -- Chat Shadow
-    {
-        src = { x = 53, y = 1051, w = 81, h = 9 },
-        dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
-        depth = 2,
-        color_key = { input = "#FBFBFB", output = "#0A0A12" }
-    },
-    350, 1100
-)
-
-
--- ==== IMAGES ====
-helpers.res_image( -- Measuring Overlay
-    overlay_path,
-    {
-        dst = { x = 94, y = 470, w = 900, h = 500 },
-        depth = 3,
-    },
-    384, 16384
-)
-helpers.res_image( -- Thin Overlay
-    thin_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    350, 1100
-)
-helpers.res_image( -- Wide Overlay
-    wide_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    2560, 400
-)
--- helpers.res_mirror( -- Wide Overlay
---     {
---         src = { x = 0, y = 0, w = 8000, h = 1440 },
---         dst = { x = 0, y = 0, w = 2560, h = 1440 },
---         depth = 3,
---     },
---     8000, 1440
--- )
-helpers.res_image( -- Tall Overlay
-    tall_overlay_path,
-    {
-        dst = { x = 0, y = 0, w = 2560, h = 1440 },
-        depth = 3,
-        shader = "borders",
-    },
-    384, 16384
-)
-
 -- ==== RESOLUTIONS ====
 local resolutions = {
     thin_old = helpers.ingame_only(function()
         if remaps_active then
             local act_width, act_height = waywall.active_res()
-            if act_width == 350 and act_height == 1100 then
+            if act_width == 350 and act_height == 1440 then
                 thin_active = false
                 os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
             else
@@ -363,7 +523,7 @@ local resolutions = {
                 os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
             end
             waywall.sleep(17)
-            helpers.toggle_res(350, 1100)()
+            helpers.toggle_res(350, 1440)()
         else
             return false
         end
@@ -376,7 +536,7 @@ local resolutions = {
                 helpers.toggle_res(1500, 1440)()
             else
                 local act_width, act_height = waywall.active_res()
-                if act_width == 350 and act_height == 1100 then
+                if act_width == 350 and act_height == 1440 then
                     thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
@@ -384,7 +544,7 @@ local resolutions = {
                     os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
-                helpers.toggle_res(350, 1100)()
+                helpers.toggle_res(350, 1440)()
             end
         else
             return false
@@ -423,7 +583,7 @@ local resolutions = {
                 end
                 waywall.sleep(17)
                 if thin_active then
-                    helpers.toggle_res(350, 1100)()
+                    helpers.toggle_res(350, 1440)()
                     helpers.toggle_res(384, 16384)()
                 else
                     helpers.toggle_res(384, 16384, tall_sens)()
@@ -437,7 +597,6 @@ local resolutions = {
         end
     end,
 }
-
 
 -- ==== CONFIG ACTIONS ====
 config.actions = {
@@ -480,7 +639,7 @@ config.actions = {
             remaps_active = false
             waywall.set_remaps(remaps.disabled)
             waywall.set_keymap({ layout = nil })
-            remaps_text = waywall.text("Chat Mode", { x = 710, y = 1340, color = "#9FA32B", size = 3 })
+            remaps_text = waywall.text("Chat Mode", { x = 10, y = 1382, color = "#9FA32B", size = 3 })
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)
@@ -489,7 +648,7 @@ config.actions = {
     end,
 
     [keys.delete_worlds] = function()
-        waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
+        waywall.exec("/home/arjungore/mcsr/scripts/adw_jude.sh")
     end,
 
     ["F1"] = function()
@@ -523,6 +682,6 @@ require("test").send(config)
 
 require("crosshair").setup(config)
 
-require("mirrors")
+require("pie_mirrors")
 
 return config

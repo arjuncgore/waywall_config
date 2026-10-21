@@ -11,6 +11,12 @@ local remaps = {
         ["F1"] = "F8",               -- Remove usage of F1
         ["K"] = "T",
 
+        -- pie lock
+        ["1"] = "Y",
+        ["2"] = "J",
+        ["3"] = "M",
+        ["4"] = "N",
+
     },
 
     disabled = {

@@ -1,5 +1,5 @@
 local cfg = {
-    overlay = false,
+    overlay = true,
     look = {
         X = 70,
         Y = 1280,
@@ -10,6 +10,7 @@ local cfg = {
     previous = "F10",
     play_pause = "F11",
     next = "F12",
+    args = "-p spotify"
 }
 
 return {

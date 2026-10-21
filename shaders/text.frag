@@ -4,7 +4,7 @@ varying vec2 f_src_pos;
 uniform sampler2D u_texture;
 
 // ==== THRESHOLD ====
-const float threshold = 0.01;
+const float threshold = 0.005;
 
 // ==== SRC COLORS ====
 const vec3 ecounter         = vec3(0.867, 0.867, 0.867);        // #DDDDDD
