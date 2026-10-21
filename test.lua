@@ -22,14 +22,14 @@ M.send = function(config)
     --     end
     -- end
 
-    -- require("ww_resize_animations.init").setup(config, {
-    --     speed = 4,
-    --     fps = 20,
-    --     normal_res = { w = 2560, h = 1440 },
-    --     resolutions = {
-    --         { key = "*-L", w = 350, h = 1100 }
-    --     }
-    -- })
+
+    -- config.window = {
+    --     fullscreen_width = 2560 / 2,
+    --     fullscreen_height = 1440 / 2,
+    -- }
+
+
+
 
     -- ========================== END TEST
 end

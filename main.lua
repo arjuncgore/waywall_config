@@ -598,8 +598,6 @@ local resolutions = {
     end,
 }
 
-local test_var = true
-
 -- ==== CONFIG ACTIONS ====
 config.actions = {
     [keys.thin] = resolutions.thin,
@@ -650,7 +648,7 @@ config.actions = {
     end,
 
     [keys.delete_worlds] = function()
-        waywall.exec("/home/arjungore/mcsr/scripts/adw.sh")
+        waywall.exec("/home/arjungore/mcsr/scripts/adw_jude.sh")
     end,
 
     ["F1"] = function()
