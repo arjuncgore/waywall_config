@@ -30,6 +30,12 @@ THEMES = {
     {
         description = "Finn and Jake",
         colors = {
+            -- border_color  = "#9FA3B277",
+            -- pie1_color    = "#3DC9A777",
+            -- pie2_color    = "#E6B05777",
+            -- pie3_color    = "#F26B5E77",
+            -- text_color    = "#F2F2F777",
+            -- text_bg_color = "#0A0A1277"
             border_color  = "#9FA3B2",
             pie1_color    = "#3DC9A7",
             pie2_color    = "#E6B057",
@@ -54,7 +60,7 @@ THEMES = {
         background = os.getenv("HOME") .. "/.config/waywall/resources/sam/background.png",
     },
     {
-        description = "Lcok in",
+        description = "Lock in",
         colors = {
             border_color  = "#FFFFFF",
             pie1_color    = "#E446C4",
@@ -633,7 +639,7 @@ config.actions = {
             remaps_active = false
             waywall.set_remaps(remaps.disabled)
             waywall.set_keymap({ layout = nil })
-            remaps_text = waywall.text("Chat Mode", { x = 710, y = 1340, color = "#9FA32B", size = 3 })
+            remaps_text = waywall.text("Chat Mode", { x = 10, y = 1382, color = "#9FA32B", size = 3 })
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)
