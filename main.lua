@@ -16,8 +16,12 @@ WIDE              = { x = 2560, y = 400 }
 TALL              = { x = 384, y = 16384 }
 ED                = { x = 1500, y = 1440 }
 
+-- Mirrors
+E_COUNTER         = { x = 1500, y = 400, size = 7, shadow = 7 }
+PIE               = { x = 1517, y = 665, size = 4, border = 5 }
+PERCENTAGES       = { x = 1568, y = 1050, size = 8, shadow = 8 }
 
-local keys = {
+local keys        = {
     thin           = "*-Alt_L",
     wide           = "*-B",
     tall           = "*-F4",
@@ -30,9 +34,9 @@ local keys = {
     delete_worlds  = "End",
 }
 
-THEME      = 1
+THEME             = 1
 
-THEMES     = {
+THEMES            = {
     {
         description = "Finn and Jake",
         colors = {
@@ -242,7 +246,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin e_counter
         {
             src = { x = 1, y = 28, w = 49, h = 18 },
-            dst = { x = 1500, y = 400, w = 343, h = 126 },
+            dst = { x = E_COUNTER.x, y = E_COUNTER.y, w = 49 * E_COUNTER.size, h = 18 * E_COUNTER.size },
             depth = 2,
             shader = text,
         },
@@ -252,7 +256,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin e_counter_bg
         {
             src = { x = 1, y = 28, w = 49, h = 18 },
-            dst = { x = 1507, y = 407, w = 343, h = 126 },
+            dst = { x = E_COUNTER.x + E_COUNTER.shadow, y = E_COUNTER.y + E_COUNTER.shadow, w = 49 * E_COUNTER.size, h = 18 * E_COUNTER.size },
             depth = 1,
             shader = text_bg,
         },
@@ -262,7 +266,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall e_counter
         {
             src = { x = 1, y = 28, w = 49, h = 18 },
-            dst = { x = 1500, y = 400, w = 343, h = 126 },
+            dst = { x = E_COUNTER.x, y = E_COUNTER.y, w = 49 * E_COUNTER.size, h = 18 * E_COUNTER.size },
             depth = 2,
             shader = text,
         },
@@ -272,7 +276,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall e_counter_bg
         {
             src = { x = 1, y = 28, w = 49, h = 18 },
-            dst = { x = 1507, y = 407, w = 343, h = 126 },
+            dst = { x = E_COUNTER.x + E_COUNTER.shadow, y = E_COUNTER.y + E_COUNTER.shadow, w = 49 * E_COUNTER.size, h = 18 * E_COUNTER.size },
             depth = 1,
             shader = text_bg,
         },
@@ -282,7 +286,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin pie
         {
             src = { x = THIN.x - 329, y = THIN.y - 400, w = 318, h = 160 },
-            dst = { x = 1517, y = 665, w = 367, h = 367 },
+            dst = { x = PIE.x, y = PIE.y, w = PIE.size / 4 * 367, h = PIE.size / 4 * 367 },
             depth = 2,
             shader = pie_chart,
         },
@@ -292,7 +296,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin pie border
         {
             src = { x = THIN.x - 329, y = THIN.y - 400, w = 318, h = 160 },
-            dst = { x = 1512, y = 660, w = 377, h = 377 },
+            dst = { x = PIE.x - PIE.border, y = PIE.y - PIE.border, w = PIE.size / 4 * 367 + 2 * PIE.border, h = PIE.size / 4 * 367 + 2 * PIE.border },
             depth = 1,
             shader = pie_border,
         },
@@ -302,7 +306,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall pie
         {
             src = { x = TALL.x - 330, y = TALL.y - 400, w = 320, h = 160 },
-            dst = { x = 1517, y = 665, w = 367, h = 367 },
+            dst = { x = PIE.x, y = PIE.y, w = PIE.size / 4 * 367, h = PIE.size / 4 * 367 },
             depth = 2,
             shader = pie_chart,
         },
@@ -312,7 +316,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall pie border
         {
             src = { x = TALL.x - 330, y = TALL.y - 400, w = 320, h = 160 },
-            dst = { x = 1512, y = 660, w = 377, h = 377 },
+            dst = { x = PIE.x - PIE.border, y = PIE.y - PIE.border, w = PIE.size / 4 * 367 + 2 * PIE.border, h = PIE.size / 4 * 367 + 2 * PIE.border },
             depth = 1,
             shader = pie_border,
         },
@@ -322,7 +326,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin percentages
         {
             src = { x = THIN.x - 93, y = THIN.y - 221, w = 33, h = 25 },
-            dst = { x = 1568, y = 1050, w = 264, h = 200 },
+            dst = { x = PERCENTAGES.x, y = PERCENTAGES.y, w = 33 * PERCENTAGES.size, h = 25 * PERCENTAGES.size },
             depth = 2,
             shader = text,
         },
@@ -332,7 +336,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- thin percentages_bg
         {
             src = { x = THIN.x - 93, y = THIN.y - 221, w = 33, h = 25 },
-            dst = { x = 1576, y = 1058, w = 264, h = 200 },
+            dst = { x = PERCENTAGES.x + PERCENTAGES.shadow, y = PERCENTAGES.y + PERCENTAGES.shadow, w = 33 * PERCENTAGES.size, h = 25 * PERCENTAGES.size },
             depth = 1,
             shader = text_bg,
         },
@@ -342,7 +346,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall percentages
         {
             src = { x = TALL.x - 93, y = TALL.y - 221, w = 33, h = 25 },
-            dst = { x = 1568, y = 1050, w = 264, h = 200 },
+            dst = { x = PERCENTAGES.x, y = PERCENTAGES.y, w = 33 * PERCENTAGES.size, h = 25 * PERCENTAGES.size },
             depth = 2,
             shader = text,
         },
@@ -352,7 +356,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_mirror( -- tall percentages_bg
         {
             src = { x = TALL.x - 93, y = TALL.y - 221, w = 33, h = 25 },
-            dst = { x = 1576, y = 1058, w = 264, h = 200 },
+            dst = { x = PERCENTAGES.x + PERCENTAGES.shadow, y = PERCENTAGES.y + PERCENTAGES.shadow, w = 33 * PERCENTAGES.size, h = 25 * PERCENTAGES.size },
             depth = 1,
             shader = text_bg,
         },
