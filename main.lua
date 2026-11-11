@@ -4,12 +4,18 @@
 -- local tertiary_col = "#574D43"
 -- local shadow_col = "#8BB5C9"
 
-local xkb_layout = "mc"
+local xkb_layout  = "mc"
 
-local tall_sens = 0.2
 local normal_sens = 8.0
+local tall_sens   = 0.2
 
-local helpers2 = require("helpers_2")
+-- resolutions
+NORMAL            = { x = 2560, y = 1440 }
+THIN              = { x = 350, y = 1440 }
+WIDE              = { x = 2560, y = 400 }
+TALL              = { x = 384, y = 16384 }
+ED                = { x = 1500, y = 1440 }
+
 
 local keys = {
     thin           = "*-Alt_L",
@@ -24,18 +30,12 @@ local keys = {
     delete_worlds  = "End",
 }
 
-THEME = 1
+THEME      = 1
 
-THEMES = {
+THEMES     = {
     {
         description = "Finn and Jake",
         colors = {
-            -- border_color  = "#9FA3B277",
-            -- pie1_color    = "#3DC9A777",
-            -- pie2_color    = "#E6B05777",
-            -- pie3_color    = "#F26B5E77",
-            -- text_color    = "#F2F2F777",
-            -- text_bg_color = "#0A0A1277"
             border_color  = "#9FA3B2",
             pie1_color    = "#3DC9A7",
             pie2_color    = "#E6B057",
@@ -72,9 +72,6 @@ THEMES = {
         measuring_overlay = os.getenv("HOME") .. "/.config/waywall/resources/lockin/measuring_overlay.png",
         background = os.getenv("HOME") .. "/.config/waywall/resources/lockin/background.png",
     },
-
-    -- { desc = "Lock In", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
-    -- { desc = "La La Land", c1 = #..., c2 = #..., c3 = #..., overlay = ..., background = ... },
 }
 
 
@@ -82,21 +79,20 @@ THEMES = {
 local home = os.getenv("HOME") .. "/"
 local config_folder = home .. ".config/waywall/"
 
--- local background_path = config_folder .. "resources/background.png"
 local tall_overlay_path = config_folder .. "resources/overlay_tall.png"
 local wide_overlay_path = config_folder .. "resources/overlay_wide.png"
 local thin_overlay_path = config_folder .. "resources/overlay_thin.png"
 local ed_overlay_path = config_folder .. "resources/overlay_ed.png"
--- local measuring_overlay = config_folder .. "resources/measuring_overlay.png"
 
 local pacem_path = home .. "mcsr/paceman-tracker-0.7.2.jar"
 local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 
 
 -- ==== IMPORTS ====
-local waywall = require("waywall")
-local helpers = require("waywall.helpers")
-local remaps = require("remaps")
+local waywall  = require("waywall")
+local helpers  = require("waywall.helpers")
+local helpers2 = require("helpers_2")
+local remaps   = require("remaps")
 
 
 -- ==== HELPERS ====
@@ -105,6 +101,14 @@ PIE_MIRRORS = true
 local thin_active = false
 local remaps_active = true
 local remaps_text = nil
+local paceman_text = nil
+Random_Ben = function()
+    local path = os.getenv("HOME") .. "/storage/audio/ben/"
+    local audios = { "ben", "hohoho", "no", "phone", "ugh", "yes" }
+    local idx = math.floor((math.random() * 6 + 1))
+    local filename = path .. audios[idx] .. ".mp3"
+    waywall.exec("mpv --no-video " .. filename)
+end
 local read_file = function(name)
     local file = io.open(config_folder .. name, "r")
     if file then
@@ -187,8 +191,6 @@ local config = {
         confine_pointer = true,
     },
     theme = {
-        -- background_png = background_path,
-
         ninb_anchor = {
             position = "topleft",
             x = 10,
@@ -204,32 +206,11 @@ local config = {
         jit = false,
         tearing = true,
     },
-    shaders = {
-        --     ["pie_chart"] = {
-        --         vertex   = read_file("shaders/general.vert"),
-        --         fragment = compile_colors(colors) .. read_file("shaders/pie_chart.frag"),
-        --     },
-        --     ["pie_border"] = {
-        --         vertex   = read_file("shaders/general.vert"),
-        --         fragment = compile_colors(colors) .. read_file("shaders/pie_border.frag"),
-        --     },
-        --     ["text"] = {
-        --         vertex   = read_file("shaders/general.vert"),
-        --         fragment = compile_colors(colors) .. read_file("shaders/text.frag"),
-        --     },
-        --     ["text_bg"] = {
-        --         vertex   = read_file("shaders/general.vert"),
-        --         fragment = compile_colors(colors) .. read_file("shaders/text_bg.frag"),
-        --     },
-        --     ["borders"] = {
-        --         vertex   = read_file("shaders/general.vert"),
-        --         fragment = compile_colors(colors) .. read_file("shaders/borders.frag"),
-        --     },
-    },
 }
 
 
 -- ==== MIRRORS ====
+config.shaders = {}
 for idx, theme in ipairs(THEMES) do
     local pie_chart = theme.description .. ": pie_chart"
     local pie_border = theme.description .. ": pie_border"
@@ -265,7 +246,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = text,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin e_counter_bg
@@ -275,7 +256,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = text_bg,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall e_counter
@@ -285,7 +266,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = text,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall e_counter_bg
@@ -295,7 +276,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = text_bg,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin pie
@@ -305,7 +286,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = pie_chart,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin pie border
@@ -315,19 +296,9 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = pie_border,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
-    -- helpers2.res_mirror( -- thin pie norm
-    --     {
-    --         src = { x = 21, y = 700, w = 318, h = 160 },
-    --         dst = { x = (2560 - 350) / 2 + 21, y = (1440 - 1440) / 2 + 700, w = 318, h = 160 },
-    --         depth = 2,
-    --         shader = pie_chart,
-    --     },
-    --     350, 1440,
-    --     function() return THEME == idx end
-    -- )
     helpers2.res_mirror( -- tall pie
         {
             src = { x = 54, y = 15984, w = 320, h = 160 },
@@ -335,7 +306,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = pie_chart,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall pie border
@@ -345,7 +316,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = pie_border,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin percentages
@@ -355,7 +326,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = text,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- thin percentages_bg
@@ -365,7 +336,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = text_bg,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall percentages
@@ -375,7 +346,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             shader = text,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- tall percentages_bg
@@ -385,7 +356,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 1,
             shader = text_bg,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- Eye Measure
@@ -394,7 +365,7 @@ for idx, theme in ipairs(THEMES) do
             dst = { x = 94, y = 470, w = 900, h = 500 },
             depth = 2,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
 
@@ -427,7 +398,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             color_key = { input = "#FBFBFB", output = theme.colors.text_color }
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_mirror( -- Chat Shadow
@@ -437,7 +408,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 2,
             color_key = { input = "#FBFBFB", output = theme.colors.text_bg_color },
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
 
@@ -457,7 +428,7 @@ for idx, theme in ipairs(THEMES) do
             dst = { x = 94, y = 470, w = 900, h = 500 },
             depth = 3,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_image( -- Thin Overlay
@@ -467,7 +438,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             shader = borders,
         },
-        350, 1440,
+        THIN.x, THIN.y,
         function() return THEME == idx end
     )
     helpers2.res_image( -- ED Overlay
@@ -477,7 +448,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             shader = borders,
         },
-        1500, 1440,
+        ED.x, ED.y,
         function() return THEME == idx end
     )
     helpers2.res_image( -- Wide Overlay
@@ -487,18 +458,9 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             shader = borders,
         },
-        2560, 400,
+        WIDE.x, WIDE.y,
         function() return THEME == idx end
     )
-    -- helpers2.res_mirror( -- Wide Overlay
-    --     {
-    --         src = { x = 0, y = 0, w = 8000, h = 1440 },
-    --         dst = { x = 0, y = 0, w = 2560, h = 1440 },
-    --         depth = 3,
-    --     },
-    --     8000, 1440,
-    --     function() return THEME == idx end
-    -- )
     helpers2.res_image( -- Tall Overlay
         tall_overlay_path,
         {
@@ -506,7 +468,7 @@ for idx, theme in ipairs(THEMES) do
             depth = 3,
             shader = borders,
         },
-        384, 16384,
+        TALL.x, TALL.y,
         function() return THEME == idx end
     )
 end
@@ -515,15 +477,15 @@ local resolutions = {
     thin_old = helpers.ingame_only(function()
         if remaps_active then
             local act_width, act_height = waywall.active_res()
-            if act_width == 350 and act_height == 1440 then
+            if act_width == THIN.x and act_height == THIN.y then
                 thin_active = false
                 os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
             else
                 thin_active = true
-                os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
+                os.execute('echo "' .. THIN.x + 10 .. 'x' .. THIN.y .. '" > ~/.resize_state')
             end
             waywall.sleep(17)
-            helpers.toggle_res(350, 1440)()
+            helpers.toggle_res(THIN.x, THIN.y)()
         else
             return false
         end
@@ -533,36 +495,34 @@ local resolutions = {
         if remaps_active then
             local state = waywall.state()
             if state.inworld == "paused" then
-                helpers.toggle_res(1500, 1440)()
+                helpers.toggle_res(ED.x, ED.y)()
             else
                 local act_width, act_height = waywall.active_res()
-                if act_width == 350 and act_height == 1440 then
+                if act_width == THIN.x and act_height == THIN.y then
                     thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
                     thin_active = true
-                    os.execute('echo "' .. 360 .. 'x' .. 1110 .. '" > ~/.resize_state')
+                    os.execute('echo "' .. THIN.x + 10 .. 'x' .. THIN.y .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
-                helpers.toggle_res(350, 1440)()
+                helpers.toggle_res(THIN.x, THIN.y)()
             end
         else
             return false
         end
     end,
-
     wide = helpers.ingame_only(function()
         if remaps_active then
             if not waywall.get_key("F3") then
                 local act_width, act_height = waywall.active_res()
-                if act_width == 2560 and act_height == 400 then
+                if act_width == WIDE.x and act_height == WIDE.y then
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
-                    os.execute('echo "' .. 2560 .. 'x' .. 410 .. '" > ~/.resize_state')
+                    os.execute('echo "' .. WIDE.x .. 'x' .. WIDE.y + 10 .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
-                helpers.toggle_res(2560, 400)()
-                -- helpers.toggle_res(8000, 1440)()
+                helpers.toggle_res(WIDE.x, WIDE.y)()
                 thin_active = false
             else
                 return false
@@ -575,18 +535,18 @@ local resolutions = {
         if remaps_active then
             if not waywall.get_key("F3") then
                 local act_width, act_height = waywall.active_res()
-                if act_width == 384 and act_height == 16384 then
+                if act_width == TALL.x and act_height == TALL.y then
                     thin_active = false
                     os.execute('echo "' .. 0 .. 'x' .. 0 .. '" > ~/.resize_state')
                 else
-                    os.execute('echo "' .. 394 .. 'x' .. 16384 .. '" > ~/.resize_state')
+                    os.execute('echo "' .. TALL.x + 10 .. 'x' .. TALL.y .. '" > ~/.resize_state')
                 end
                 waywall.sleep(17)
                 if thin_active then
-                    helpers.toggle_res(350, 1440)()
-                    helpers.toggle_res(384, 16384)()
+                    helpers.toggle_res(THIN.x, THIN.y)()
+                    helpers.toggle_res(TALL.x, TALL.y)()
                 else
-                    helpers.toggle_res(384, 16384, tall_sens)()
+                    helpers.toggle_res(TALL.x, TALL.y, tall_sens)()
                 end
                 thin_active = false
             else
@@ -610,25 +570,31 @@ config.actions = {
         if not is_ninb_running() then
             -- waywall.exec("java -Dawt.useSystemAAFontSettings=on -jar " .. nb_path)
             waywall.exec("ninjabrain-bot")
-            -- waywall.exec("ninjabrain-bot-xwayland")
             waywall.show_floating(true)
         else
             helpers.toggle_floating()
         end
     end,
 
-    ["*-C"] = function()
-        if waywall.get_key("F3") then
-            waywall.show_floating(true)
-        end
-        return false
-    end,
-
     [keys.launch_paceman] = function()
-        if not is_pacem_running() then
-            waywall.exec("java -jar " .. pacem_path .. " --nogui")
+        if paceman_text then return end
+        if is_pacem_running() then
+            print("Paceman Already Running")
+            paceman_text = waywall.text("Paceman Already Running",
+                { x = 10, y = 1390, color = "#FFFFFF", size = 3 })
+            waywall.sleep(1500)
+            paceman_text:close()
+            paceman_text = nil
+        else
+            -- waywall.exec("java -jar " .. pacem_path .. " --nogui")
+            waywall.exec("paceman-tracker --nogui")
+            print("Paceman Running")
+            paceman_text = waywall.text("Paceman Running",
+                { x = 10, y = 1390, color = "#FFFFFF", size = 3 })
+            waywall.sleep(1500)
+            paceman_text:close()
+            paceman_text = nil
         end
-        print(is_pacem_running())
     end,
 
     [keys.toggle_rebinds] = function()
@@ -639,7 +605,7 @@ config.actions = {
             remaps_active = false
             waywall.set_remaps(remaps.disabled)
             waywall.set_keymap({ layout = nil })
-            remaps_text = waywall.text("Chat Mode", { x = 10, y = 1382, color = "#9FA32B", size = 3 })
+            remaps_text = waywall.text("Chat Mode", { x = 7, y = 1382, color = "#9FA32B", size = 4 })
         else
             remaps_active = true
             waywall.set_remaps(remaps.enabled)
@@ -654,28 +620,17 @@ config.actions = {
     ["F1"] = function()
         local state = waywall.state()
         if state.inworld == "paused" then
-            helpers.toggle_res(1500, 1440)()
+            helpers.toggle_res(ED.x, ED.y)()
         end
     end,
 
     ["escape"] = function()
         local act_width, act_height = waywall.active_res()
-        if act_width == 1500 and act_height == 1440 then
+        if act_width == ED.x and act_height == ED.y then
             waywall.set_resolution(0, 0)
         end
         return false
     end,
-
-    -- ["MB4"] = waywall.ingame_only(function()
-    --     if toggle_pie_dir_remaps then
-    --         waywall.set_remaps(remaps.enabled)
-    --     else
-    --         waywall.set_remaps(remaps.piedar_dir)
-    --     end
-    --     toggle_pie_dir_remaps = not toggle_pie_dir_remaps
-    --     return false
-    -- end),
-
 }
 
 require("test").send(config)
