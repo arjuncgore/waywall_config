@@ -9,7 +9,7 @@ local xkb_layout  = "mc"
 local normal_sens = 8.0
 local tall_sens   = 0.2
 
--- resolutions
+-- Resolutions
 NORMAL            = { x = 2560, y = 1440 }
 THIN              = { x = 350, y = 1440 }
 WIDE              = { x = 2560, y = 400 }
@@ -281,7 +281,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin pie
         {
-            src = { x = 21, y = 1040, w = 318, h = 160 },
+            src = { x = THIN.x - 329, y = THIN.y - 400, w = 318, h = 160 },
             dst = { x = 1517, y = 665, w = 367, h = 367 },
             depth = 2,
             shader = pie_chart,
@@ -291,7 +291,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin pie border
         {
-            src = { x = 21, y = 1040, w = 318, h = 160 },
+            src = { x = THIN.x - 329, y = THIN.y - 400, w = 318, h = 160 },
             dst = { x = 1512, y = 660, w = 377, h = 377 },
             depth = 1,
             shader = pie_border,
@@ -301,7 +301,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- tall pie
         {
-            src = { x = 54, y = 15984, w = 320, h = 160 },
+            src = { x = TALL.x - 330, y = TALL.y - 400, w = 320, h = 160 },
             dst = { x = 1517, y = 665, w = 367, h = 367 },
             depth = 2,
             shader = pie_chart,
@@ -311,7 +311,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- tall pie border
         {
-            src = { x = 54, y = 15984, w = 320, h = 160 },
+            src = { x = TALL.x - 330, y = TALL.y - 400, w = 320, h = 160 },
             dst = { x = 1512, y = 660, w = 377, h = 377 },
             depth = 1,
             shader = pie_border,
@@ -321,7 +321,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin percentages
         {
-            src = { x = 257, y = 1219, w = 33, h = 25 },
+            src = { x = THIN.x - 93, y = THIN.y - 221, w = 33, h = 25 },
             dst = { x = 1568, y = 1050, w = 264, h = 200 },
             depth = 2,
             shader = text,
@@ -331,7 +331,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- thin percentages_bg
         {
-            src = { x = 257, y = 1219, w = 33, h = 25 },
+            src = { x = THIN.x - 93, y = THIN.y - 221, w = 33, h = 25 },
             dst = { x = 1576, y = 1058, w = 264, h = 200 },
             depth = 1,
             shader = text_bg,
@@ -341,7 +341,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- tall percentages
         {
-            src = { x = 291, y = 16163, w = 33, h = 25 },
+            src = { x = TALL.x - 93, y = TALL.y - 221, w = 33, h = 25 },
             dst = { x = 1568, y = 1050, w = 264, h = 200 },
             depth = 2,
             shader = text,
@@ -351,7 +351,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- tall percentages_bg
         {
-            src = { x = 291, y = 16163, w = 33, h = 25 },
+            src = { x = TALL.x - 93, y = TALL.y - 221, w = 33, h = 25 },
             dst = { x = 1576, y = 1058, w = 264, h = 200 },
             depth = 1,
             shader = text_bg,
@@ -361,7 +361,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- Eye Measure
         {
-            src = { x = 177, y = 7902, w = 30, h = 580 },
+            src = { x = TALL.x / 2 - 15, y = TALL.y / 2 - 290, w = 30, h = 580 },
             dst = { x = 94, y = 470, w = 900, h = 500 },
             depth = 2,
         },
@@ -372,7 +372,7 @@ for idx, theme in ipairs(THEMES) do
     for i = 0, 3, 1 do
         helpers2.res_mirror( -- mob_spawner
             {
-                src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+                src = { x = NORMAL.x - 93, y = NORMAL.y - 221 + 8 * i, w = 33, h = 9 },
                 dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
                 depth = 3,
                 color_key = { input = "#4de1ca", output = "#E6B057" }
@@ -382,7 +382,7 @@ for idx, theme in ipairs(THEMES) do
         )
         helpers2.res_mirror( -- mob_spawner
             {
-                src = { x = 2467, y = 1219 + 8 * i, w = 33, h = 9 },
+                src = { x = NORMAL.x - 93, y = NORMAL.y - 221 + 8 * i, w = 33, h = 9 },
                 dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
                 depth = 2,
                 color_key = { input = "#4de1ca", output = "#000000" }
@@ -393,7 +393,7 @@ for idx, theme in ipairs(THEMES) do
     end
     helpers2.res_mirror( -- Chat
         {
-            src = { x = 53, y = 1391, w = 81, h = 9 },
+            src = { x = 53, y = THIN.y - 49, w = 81, h = 9 },
             dst = { x = 200, y = 1080, w = 81 * 8, h = 9 * 8 },
             depth = 3,
             color_key = { input = "#FBFBFB", output = theme.colors.text_color }
@@ -403,7 +403,7 @@ for idx, theme in ipairs(THEMES) do
     )
     helpers2.res_mirror( -- Chat Shadow
         {
-            src = { x = 53, y = 1391, w = 81, h = 9 },
+            src = { x = 53, y = THIN.y - 49, w = 81, h = 9 },
             dst = { x = 200 + 8, y = 1080 + 8, w = 81 * 8, h = 9 * 8 },
             depth = 2,
             color_key = { input = "#FBFBFB", output = theme.colors.text_bg_color },
@@ -417,24 +417,15 @@ for idx, theme in ipairs(THEMES) do
     helpers2.background( -- Background
         background_path,
         {
-            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            dst = { x = 0, y = 0, w = NORMAL.x, h = NORMAL.y },
             depth = -1,
         },
-        function() return THEME == idx end
-    )
-    helpers2.res_image( -- Measuring Overlay
-        measuring_overlay,
-        {
-            dst = { x = 94, y = 470, w = 900, h = 500 },
-            depth = 3,
-        },
-        TALL.x, TALL.y,
         function() return THEME == idx end
     )
     helpers2.res_image( -- Thin Overlay
         thin_overlay_path,
         {
-            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            dst = { x = 0, y = 0, w = NORMAL.x, h = NORMAL.y },
             depth = 3,
             shader = borders,
         },
@@ -444,7 +435,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_image( -- ED Overlay
         ed_overlay_path,
         {
-            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            dst = { x = 0, y = 0, w = NORMAL.x, h = NORMAL.y },
             depth = 3,
             shader = borders,
         },
@@ -454,7 +445,7 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_image( -- Wide Overlay
         wide_overlay_path,
         {
-            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            dst = { x = 0, y = 0, w = NORMAL.x, h = NORMAL.y },
             depth = 3,
             shader = borders,
         },
@@ -464,9 +455,18 @@ for idx, theme in ipairs(THEMES) do
     helpers2.res_image( -- Tall Overlay
         tall_overlay_path,
         {
-            dst = { x = 0, y = 0, w = 2560, h = 1440 },
+            dst = { x = 0, y = 0, w = NORMAL.x, h = NORMAL.y },
             depth = 3,
             shader = borders,
+        },
+        TALL.x, TALL.y,
+        function() return THEME == idx end
+    )
+    helpers2.res_image( -- Measuring Overlay
+        measuring_overlay,
+        {
+            dst = { x = 94, y = 470, w = 900, h = 500 },
+            depth = 3,
         },
         TALL.x, TALL.y,
         function() return THEME == idx end
@@ -614,7 +614,7 @@ config.actions = {
     end,
 
     [keys.delete_worlds] = function()
-        waywall.exec("/home/arjungore/mcsr/scripts/adw_jude.sh")
+        waywall.exec(os.getenv("HOME") .. "/mcsr/scripts/adw_jude.sh")
     end,
 
     ["F1"] = function()
