@@ -1,4 +1,5 @@
 local waywall = require("waywall")
+local helpers = require("waywall.helpers")
 
 local crosshair_image = nil
 local crosshair_active = nil
@@ -12,6 +13,16 @@ local cfg = {
 }
 
 local M = {}
+
+helpers.res_image(cfg.path, {
+    dst = {
+        x = (cfg.resx - cfg.size) / 2,
+        y = (cfg.resy - cfg.size) / 2,
+        w = cfg.size,
+        h = cfg.size,
+    }
+}, 384, 16384
+)
 
 M.setup = function(config)
     config.actions[cfg.key] = function()
