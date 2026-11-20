@@ -2,8 +2,8 @@ default partial alphanumeric_keys
 xkb_symbols "basic" {
     name[Group1] = "Minecraft";
 
-    key <FK01> { [ k, K ] };
-    key <FK02> { [ k, K ] };
+    key <FK01> { [ VoidSymbol, VoidSymbol ] };
+    key <FK02> { [ VoidSymbol, VoidSymbol ] };
     key <FK03> { [ k, K ] };
     key <LFSH> { [ Shift_L ] };
     key <AE10> { [ 0, 0 ] };                        // Z > 0
@@ -13,10 +13,11 @@ xkb_symbols "basic" {
 //    key <AE03> { [ d, period ] };                   // 3 > d (shift .)
 //    key <AE04> { [ 4, 4 ] };                        // 4 > 4
 
-    key <AD06> { [ 1, 8 ] };                        // 1 > 1 (shift 8) (Y)
+    key <AD06> { [ 8, 8 ] };                        // 1 > 1 (shift 8) (Y)
     key <AC07> { [ 2, plus ] };                     // 2 > 2 (shift +) (J)
     key <AB07> { [ d, period ] };                   // 3 > d (shift .) (M)
     key <AB06> { [ 4, 4 ] };                        // 4 > 4 (N)
+    key <AD10> { [ 5, 5 ] };                        // 5 > 5 (P)
 
 
     key <AD01> { [ o, O ] };                        // Q > O
