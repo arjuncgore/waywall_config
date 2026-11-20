@@ -17,9 +17,10 @@ TALL              = { x = 384, y = 16384 }
 ED                = { x = 1500, y = 1440 }
 
 -- Mirrors
-E_COUNTER         = { x = 1500, y = 400, size = 7, shadow = 7 }
 PIE               = { x = 1517, y = 665, size = 4, border = 5 }
+E_COUNTER         = { x = 1500, y = 400, size = 7, shadow = 7 }
 PERCENTAGES       = { x = 1568, y = 1050, size = 8, shadow = 8 }
+GLOWDAR           = { x = 2258, y = 1080, size = 8, shadow = 8 }
 
 local keys        = {
     thin           = "*-Alt_L",
@@ -93,14 +94,19 @@ local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 
 
 -- ==== IMPORTS ====
-local waywall  = require("waywall")
-local helpers  = require("waywall.helpers")
-local helpers2 = require("helpers_2")
-local remaps   = require("remaps")
+local waywall         = require("waywall")
+local helpers         = require("waywall.helpers")
+local helpers2        = require("helpers_2")
+local remaps          = require("remaps")
+
+local remaps_disabled = {
+    ["MB4"] = "F3",
+    ["LEFTALT"] = "LEFTCTRL",
+}
 
 
 -- ==== HELPERS ====
-NORMAL_REMAPS = remaps.enabled
+NORMAL_REMAPS = remaps
 PIE_MIRRORS = true
 local thin_active = false
 local remaps_active = true
@@ -190,9 +196,9 @@ local config = {
         repeat_rate = 60,
         repeat_delay = 200,
 
-        remaps = remaps.enabled,
+        remaps = remaps,
         sensitivity = normal_sens,
-        confine_pointer = true,
+        confine_pointer = false,
     },
     theme = {
         ninb_anchor = {
@@ -377,7 +383,7 @@ for idx, theme in ipairs(THEMES) do
         helpers2.res_mirror( -- mob_spawner
             {
                 src = { x = NORMAL.x - 93, y = NORMAL.y - 221 + 8 * i, w = 33, h = 9 },
-                dst = { x = 2258, y = 1080, w = 33 * 8, h = 9 * 8 },
+                dst = { x = GLOWDAR.x, y = GLOWDAR.y, w = 33 * GLOWDAR.size, h = 9 * GLOWDAR.size },
                 depth = 3,
                 color_key = { input = "#4de1ca", output = "#E6B057" }
             },
@@ -387,7 +393,7 @@ for idx, theme in ipairs(THEMES) do
         helpers2.res_mirror( -- mob_spawner
             {
                 src = { x = NORMAL.x - 93, y = NORMAL.y - 221 + 8 * i, w = 33, h = 9 },
-                dst = { x = 2258 + 8, y = 1080 + 8, w = 33 * 8, h = 9 * 8 },
+                dst = { x = GLOWDAR.x + GLOWDAR.shadow, y = GLOWDAR.y + GLOWDAR.shadow, w = 33 * GLOWDAR.size, h = 9 * GLOWDAR.size },
                 depth = 2,
                 color_key = { input = "#4de1ca", output = "#000000" }
             },
@@ -607,12 +613,12 @@ config.actions = {
         end
         if remaps_active then
             remaps_active = false
-            waywall.set_remaps(remaps.disabled)
+            waywall.set_remaps(remaps_disabled)
             waywall.set_keymap({ layout = nil })
             remaps_text = waywall.text("Chat Mode", { x = 7, y = 1382, color = "#9FA32B", size = 4 })
         else
             remaps_active = true
-            waywall.set_remaps(remaps.enabled)
+            waywall.set_remaps(remaps)
             waywall.set_keymap({ layout = xkb_layout })
         end
     end,
