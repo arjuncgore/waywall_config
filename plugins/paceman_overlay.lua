@@ -22,17 +22,19 @@ local cfg = {
 
 }
 
-return {
-    url = "https://github.com/arjuncgore/ww_paceman_overlay",
-    config = function(config)
-        require("paceman_overlay.init").setup(config, cfg)
-    end,
-    dependencies = {
-        {
-            url = "https://github.com/arjuncgore/ww_requests",
-            name = "ww_requests",
-        }
-    },
-    name = "paceman_overlay",
-    update_on_load = false,
-}
+return function()
+    return {
+        url = "https://github.com/arjuncgore/ww_paceman_overlay",
+        config = function(config)
+            require("paceman_overlay.init").setup(config, cfg)
+        end,
+        dependencies = {
+            {
+                url = "https://github.com/arjuncgore/ww_requests",
+                name = "ww_requests",
+            }
+        },
+        name = "paceman_overlay",
+        update_on_load = false,
+    }
+end
