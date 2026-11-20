@@ -1,5 +1,5 @@
 local waywall = require("waywall")
-local helpers = require("helpers_2")
+local helpers = require("modules/helpers_2")
 
 -- CHANGE PIE DIR
 local pie_dst_2 = { x = 2414, y = 1350, w = 130, h = 70 }
