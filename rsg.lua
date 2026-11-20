@@ -1,17 +1,19 @@
 local waywall = require("waywall")
 local config = require("main")
+local u = require("utils")
 
 local plug = require("plug")
 plug.setup({
-
-    dir = "rsg_plugins",
     config = config,
     path = "~/.local/share/waywall/plugins",
+    plugins = {
+        u.plugin("temporary_ninbot"),
+        u.plugin("music_overlay", { overlay = false }),
+        u.plugin("rsg_utils", { dependencies = { u.plugin("pie_lock") } }),
+        u.plugin("paceman_overlay"),
+        u.plugin("command_line"),
+    }
 })
-
-config.actions["Shift-F8"] = function()
-    print(plug.update_all())
-end
 
 waywall.listen("state", function()
     local state = waywall.state()
@@ -19,7 +21,5 @@ waywall.listen("state", function()
         waywall.exec(os.getenv("HOME") .. "/mcsr/scripts/adw_jude.sh")
     end
 end)
-
--- require("waywordle.init").setup(config)
 
 return config
