@@ -607,6 +607,7 @@ config.actions = {
     end,
 
     [keys.launch_paceman] = function()
+        if waywall.profile() ~= "rsg" then return end
         if paceman_text then return end
         if is_pacem_running() then
             print("Paceman Already Running")
