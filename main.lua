@@ -96,8 +96,8 @@ local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 -- ==== IMPORTS ====
 local waywall         = require("waywall")
 local helpers         = require("waywall.helpers")
-local helpers2        = require("helpers_2")
-local remaps          = require("remaps")
+local helpers2        = require("modules/helpers_2")
+local remaps          = require("modules/remaps")
 
 local remaps_disabled = {
     ["MB4"] = "F3",
@@ -665,8 +665,8 @@ config.actions = {
 
 require("test").send(config)
 
-require("crosshair").setup(config)
+require("modules/crosshair").setup(config)
 
-require("pie_mirrors")
+require("modules/pie_mirrors")
 
 return config

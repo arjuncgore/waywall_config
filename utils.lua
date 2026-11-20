@@ -46,4 +46,9 @@ M.print_len2 = function(msg, length, opts)
     return
 end
 
+M.plugin = function(name, opts)
+    opts = opts or nil
+    return require("plugins/" .. name)(opts)
+end
+
 return M
