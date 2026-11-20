@@ -1,6 +1,6 @@
 local waywall = require("waywall")
 local helpers = require("waywall.helpers")
-local utils = require("utils")
+local u = require("modules.utils")
 
 local reload = function()
     print("sh -c \"echo 2 >> " .. os.getenv("HOME") .. "/.config/waywall/reload.lua\"")
@@ -112,7 +112,7 @@ return function()
                         local line = table.concat(args, " ")
                         print("line: " .. line)
                         local result = run_lua(line)
-                        utils.print_len(result, 1)
+                        u.print_len(result, 1)
                     end,
                     ["theme"] = function(args)
                         local args_str = table.concat(args, " ")
@@ -121,12 +121,12 @@ return function()
                     end,
                     ["print"] = function(args)
                         local args_str = table.concat(args, " ", 2)
-                        utils.print_len(args_str, args[1])
+                        u.print_len(args_str, args[1])
                     end,
                     ["reload"] = reload,
                 },
                 arbitrary_command = function(key)
-                    utils.print_len(key, 0.5)
+                    u.print_len(key, 0.5)
                 end,
                 repeat_last_arbitrary = false
             })

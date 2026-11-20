@@ -1,6 +1,6 @@
 local waywall = require("waywall")
 local config = require("main")
-local u = require("utils")
+local u = require("modules.utils")
 
 local plug = require("plug")
 plug.setup({

@@ -16,9 +16,9 @@ local cfg = {
     text = {
         enabled = true,
         text = "unlocked",
-        x = 2290,
-        y = 1140,
-        size = 3,
+        x = 2300,
+        y = 1382,
+        size = 4,
         color = "#9FA32B",
     },
     toggle_key = "*-GRAVE",

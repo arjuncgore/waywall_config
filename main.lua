@@ -96,8 +96,8 @@ local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 -- ==== IMPORTS ====
 local waywall         = require("waywall")
 local helpers         = require("waywall.helpers")
-local helpers2        = require("modules/helpers_2")
-local remaps          = require("modules/remaps")
+local helpers2        = require("modules.helpers_2")
+local remaps          = require("modules.remaps")
 
 local remaps_disabled = {
     ["MB4"] = "F3",
@@ -106,7 +106,7 @@ local remaps_disabled = {
 
 -- Plug.waywall
 local plug_repo       = "https://github.com/its-saanvi/plug.waywall"
-local waywall_share   = os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share") .. "/waywall"
+local waywall_share   = (os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share")) .. "/waywall"
 local plug_path       = waywall_share .. "/plug"
 local file, err       = io.open(plug_path .. "/.check_temp", "w")
 if not file and err then
@@ -666,8 +666,8 @@ config.actions = {
 
 require("test").send(config)
 
-require("modules/crosshair").setup(config)
+require("modules.crosshair").setup(config)
 
-require("modules/pie_mirrors")
+require("modules.pie_mirrors")
 
 return config
