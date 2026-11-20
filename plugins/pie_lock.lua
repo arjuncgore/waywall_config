@@ -16,9 +16,9 @@ local cfg = {
     text = {
         enabled = true,
         text = "unlocked",
-        x = 2290,
-        y = 1140,
-        size = 3,
+        x = 2300,
+        y = 1382,
+        size = 4,
         color = "#9FA32B",
     },
     toggle_key = "*-GRAVE",
@@ -33,17 +33,17 @@ local cfg = {
     end,
 }
 
+return function()
+    return {
+        url = "https://github.com/arjuncgore/ww_pie_lock",
+        config = function(config)
+            local pie_lock = require("pie_lock.init")
 
-
-return {
-    url = "https://github.com/arjuncgore/ww_pie_lock",
-    config = function(config)
-        local pie_lock = require("pie_lock.init")
-
-        pie_lock.setup(config, cfg)
-        NORMAL_REMAPS = pie_lock.normal_remaps()
-    end,
-    name = "pie_lock",
-    update_on_load = true,
-    enabled = true
-}
+            pie_lock.setup(config, cfg)
+            NORMAL_REMAPS = pie_lock.normal_remaps()
+        end,
+        name = "pie_lock",
+        update_on_load = true,
+        enabled = true
+    }
+end

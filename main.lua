@@ -96,13 +96,33 @@ local nb_path = home .. "mcsr/Ninjabrain-Bot-1.5.2.jar"
 -- ==== IMPORTS ====
 local waywall         = require("waywall")
 local helpers         = require("waywall.helpers")
-local helpers2        = require("helpers_2")
-local remaps          = require("remaps")
+local helpers2        = require("modules.helpers_2")
+local remaps          = require("modules.remaps")
 
 local remaps_disabled = {
     ["MB4"] = "F3",
     ["LEFTALT"] = "LEFTCTRL",
 }
+
+-- Plug.waywall
+local plug_repo       = "https://github.com/its-saanvi/plug.waywall"
+local waywall_share   = (os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share")) .. "/waywall"
+local plug_path       = waywall_share .. "/plug"
+local file, err       = io.open(plug_path .. "/.check_temp", "w")
+if not file and err then
+    if string.find(err, "No such file or directory") then
+        if not os.execute("mkdir -p " .. waywall_share) then
+            print("Failed to create waywall share directory")
+        end
+        if not os.execute("git clone " .. plug_repo .. " " .. plug_path) then
+            print("Failed to clone plug.waywall")
+        end
+    end
+else
+    file:close()
+    os.remove(plug_path .. "/.check_temp")
+end
+package.path = package.path .. ";" .. waywall_share .. "/plug/?/init.lua" .. ";" .. plug_path .. "/?.lua"
 
 
 -- ==== HELPERS ====
@@ -587,6 +607,7 @@ config.actions = {
     end,
 
     [keys.launch_paceman] = function()
+        if waywall.profile() ~= "rsg" then return end
         if paceman_text then return end
         if is_pacem_running() then
             print("Paceman Already Running")
@@ -645,8 +666,8 @@ config.actions = {
 
 require("test").send(config)
 
-require("crosshair").setup(config)
+require("modules.crosshair").setup(config)
 
-require("pie_mirrors")
+require("modules.pie_mirrors")
 
 return config
